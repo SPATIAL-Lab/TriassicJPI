@@ -31,7 +31,7 @@ par(mar = c(5, 5, 4, 1))
 Let's review the high-latitude (terrestrial) proxy data and its interpretation. 
 I'll refer to the sites by number for convenience, here's the key:
 
-```{r sites}
+```{r sites, echo=FALSE}
 
 cont_sites.car
 
@@ -46,7 +46,7 @@ Al/Si is available from 2 Carnian sites and 1 Anisian site. Here I'm plotting th
 calibration dataset for the proxy (black) and the paleo-proxy values vs. the posterior median
 site MAT (pink = Carnian, blue = Anisian).
 
-```{r alsi}
+```{r alsi, echo=FALSE}
 plot(AlSi ~ MAT, data = alsi_cal, ylab = "Al/Si",
      xlim = range(c(as.data.frame(alsi_cal)$MAT, pm$t_cont.car[alsi_sites.ind.car],
                     pm$t_cont.an[alsi_sites.ind.an])),
@@ -82,7 +82,7 @@ reconstructions in one direction or another.
 
 Same thing for CIA, which is available at 3 Carnian and 2 Anisian sites.
 
-```{r CIA}
+```{r CIA, echo=FALSE}
 
 plot(CIA ~ Temp, data = cia_cal, xlab = "MAT",
      xlim = range(c(as.data.frame(cia_cal)$Temp, pm$t_cont.car[cia_sites.ind.car],
@@ -118,7 +118,7 @@ Now paleosol weathering index, only available at two Carnian sites. I've added
 the calibration curve using the median curve fit parameters in the posterior
 for reference.
 
-```{r PWI}
+```{r PWI, echo=FALSE}
 
 plot(PWI ~ MAT, data = pwi_cal, 
      xlim = range(c(as.data.frame(pwi_cal)$MAT, pm$t_cont.car[pwi_sites.ind.car])),
@@ -146,7 +146,7 @@ a cool bias in the first plot (based on Al/Si).
 Here I'm using the calibration function from Julia Kelson's paper, which is
 represented as a line. Only one Anisian site.
 
-```{r clumped}
+```{r clumped, echo=FALSE}
 
 plot(10:25, 6.36e4 / (10:25 + 273) ^ 2 + -4.7e-3, type = "l", 
      xlab = "MAT", ylab = expression(Delta*47),
@@ -188,7 +188,7 @@ $\delta$^18^O value and temperature.
 The data are plotted as above, with the posterior median MAT on the x axis and
 the measured proxy value on the y axis. Fpr simplicity I'm not showing 
 
-```{r}
+```{r oxygen, echo=FALSE}
 
 mat = 0:40
 d18O.prior = -14 + 0.59 * mat
