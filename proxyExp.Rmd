@@ -33,8 +33,10 @@ I'll refer to the sites by number for convenience, here's the key:
 
 ```{r sites, echo=FALSE}
 
+print("Carnian")
 cont_sites.car
 
+print("Anisian")
 cont_sites.an
 
 ```
@@ -138,7 +140,7 @@ text(pm$t_cont.car[pwi_sites.ind.car], par("usr")[4], pwi_sites.ind.car,
 Here the reconstructions fit the calibration data well. Obviously the
 interpretation is based on an extrapolation at site 3, but if one takes the
 proxy at face value it's pretty tough for this site to have a MAT higher 
-than, say, 5 or 10 degrees. Note that this is the same site which has
+than, say, 5 or 10 $^\circ$. Note that this is the same site which has
 a cool bias in the first plot (based on Al/Si).
 
 ## Clumped
@@ -186,7 +188,7 @@ for each stage.
 $\delta$^18^O value and temperature.
 
 The data are plotted as above, with the posterior median MAT on the x axis and
-the measured proxy value on the y axis. Fpr simplicity I'm not showing 
+the measured proxy value on the y axis. 
 
 ```{r oxygen, echo=FALSE}
 
@@ -276,7 +278,7 @@ bit.
 MAT gradients separately. I've plotted up the BRIDGE paleotemperature gradients
 separately for marine and terrestrial in our figure, and as one would expect
 the terrestrial one is steeper and the modeled terrestrial MATs are lower than
-the marine values at paleolatitudes above ~45-55 degrees. That's not going to 
+the marine values at paleolatitudes above ~45-55 $^\circ$. That's not going to 
 strongly affect many of our sites but it's worth considering and would be
 easy to incorporate in the model.
 * Maybe more substantial, I'm currently assuming terrestrial carbonates are
