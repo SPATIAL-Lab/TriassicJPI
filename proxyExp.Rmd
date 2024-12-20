@@ -1,0 +1,291 @@
+---
+title: "Proxy Exploration"
+author: "Gabriel Bowen"
+date: "2024-12-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+
+knitr::opts_chunk$set(echo = TRUE)
+
+source("code/prepData.R")
+load("bigout/post.rda")
+
+pm = post$BUGSoutput$median
+
+col.c = rgb(1, 0.2, 0.6)
+col.a = rgb(0.2, 0.6, 1)
+
+knitr::opts_knit$set(global.par = TRUE)
+
+```
+
+```{r setpar, include=FALSE}
+
+par(mar = c(5, 5, 4, 1))
+
+```
+
+Let's review the high-latitude (terrestrial) proxy data and its interpretation. 
+I'll refer to the sites by number for convenience, here's the key:
+
+```{r sites}
+
+cont_sites.car
+
+cont_sites.an
+
+```
+
+
+## Al/Si
+
+Al/Si is available from 2 Carnian sites and 1 Anisian site. Here I'm plotting the 
+calibration dataset for the proxy (black) and the paleo-proxy values vs. the posterior median
+site MAT (pink = Carnian, blue = Anisian).
+
+```{r alsi}
+plot(AlSi ~ MAT, data = alsi_cal, ylab = "Al/Si",
+     xlim = range(c(as.data.frame(alsi_cal)$MAT, pm$t_cont.car[alsi_sites.ind.car],
+                    pm$t_cont.an[alsi_sites.ind.an])),
+     ylim = range(c(as.data.frame(alsi_cal)$AlSi, alsi_samples.car$AlSi,
+                    alsi_samples.an$AlSi)))
+
+points(pm$t_cont.car[alsi_sites.ind.car], alsi_samples.car$AlSi,
+       col = col.c)
+
+points(pm$t_cont.an[alsi_sites.ind.an], alsi_samples.an$AlSi,
+       col = col.a)
+
+text(pm$t_cont.car[alsi_sites.ind.car], par("usr")[4], alsi_sites.ind.car, 
+     xpd = NA, pos = 3, col = col.c)
+
+text(pm$t_cont.an[alsi_sites.ind.an], par("usr")[4], alsi_sites.ind.an, 
+     xpd = NA, pos = 3, offset = 1.25, col = col.a)
+
+```
+
+A few things to note here.
+
+* The data are very noisy.
+* Depending on the site and stage, the posterior temperatures range from much cooler 
+than the mean value you'd estimate from the proxy (top/left) to much warmer than 
+you'd estimate from the proxy (bottom/right). The posterior MATs skew a little bit
+cooler than you would get if you used these data alone, but are not too dissimilar
+on average.
+* That spread makes it clear that these data are not strongly pulling the MAT
+reconstructions in one direction or another.
+
+## CIA
+
+Same thing for CIA, which is available at 3 Carnian and 2 Anisian sites.
+
+```{r CIA}
+
+plot(CIA ~ Temp, data = cia_cal, xlab = "MAT",
+     xlim = range(c(as.data.frame(cia_cal)$Temp, pm$t_cont.car[cia_sites.ind.car],
+                    pm$t_cont.an[cia_sites.ind.an])),
+     ylim = range(c(as.data.frame(cia_cal)$CIA, cia_samples.car$CIA,
+                    cia_samples.an$CIA)))
+
+points(pm$t_cont.car[cia_sites.ind.car], cia_samples.car$CIA,
+       col = col.c, pch = 20)
+
+points(pm$t_cont.an[cia_sites.ind.an], cia_samples.an$CIA,
+       col = col.a, pch = 20)
+
+text(pm$t_cont.car[cia_sites.ind.car], par("usr")[4], cia_sites.ind.car, 
+     xpd = NA, pos = 3, col = col.c)
+
+text(pm$t_cont.an[cia_sites.ind.an], par("usr")[4], cia_sites.ind.an, 
+     xpd = NA, pos = 3, offset = 1.25, col = col.a)
+
+```
+
+Similar situation.
+
+* In this case, the posterior MATs tend to be a little higher than you'd expect
+just based on the proxy data (top/right), with the opposite true for one 
+Anisian site (bottom/left).
+* It's a really weak proxy (huge scatter in the calibration data) so not 
+surprising that here, too, there's not a a very strong influence on the MATs.
+
+## PWI
+
+Now paleosol weathering index, only available at two Carnian sites. I've added
+the calibration curve using the median curve fit parameters in the posterior
+for reference.
+
+```{r PWI}
+
+plot(PWI ~ MAT, data = pwi_cal, 
+     xlim = range(c(as.data.frame(pwi_cal)$MAT, pm$t_cont.car[pwi_sites.ind.car])),
+     ylim = range(c(as.data.frame(pwi_cal)$PWI, pwi_samples.car$PWI)))
+xs = seq(par("usr")[1], par("usr")[2], length = 100)
+ys = exp((xs + c(pm$pwi_a)) / c(pm$pwi_b))
+lines(xs, ys)
+
+points(pm$t_cont.car[pwi_sites.ind.car], pwi_samples.car$PWI,
+       col = col.c, pch = 20)
+
+text(pm$t_cont.car[pwi_sites.ind.car], par("usr")[4], pwi_sites.ind.car, 
+     xpd = NA, pos = 3, col = col.c)
+
+```
+
+Here the reconstructions fit the calibration data well. Obviously the
+interpretation is based on an extrapolation at site 3, but if one takes the
+proxy at face value it's pretty tough for this site to have a MAT higher 
+than, say, 5 or 10 degrees. Note that this is the same site which has
+a cool bias in the first plot (based on Al/Si).
+
+## Clumped
+
+Here I'm using the calibration function from Julia Kelson's paper, which is
+represented as a line. Only one Anisian site.
+
+```{r clumped}
+
+plot(10:25, 6.36e4 / (10:25 + 273) ^ 2 + -4.7e-3, type = "l", 
+     xlab = "MAT", ylab = expression(Delta*47),
+     ylim = range(c(6.36e4 / (10:25 + 273) ^ 2 + -4.7e-3, 
+                    clump_samples.an$cap_47)))
+
+points(pm$t_cont.an[clump_sites.ind.an], clump_samples.an$cap_47,
+       pch = 20, col = col.a)
+
+text(pm$t_cont.an[clump_sites.ind.an], par("usr")[4], clump_sites.ind.an, 
+     xpd = NA, pos = 3, col = col.a)
+
+```
+
+* The JPI posterior MAT is on the low side, indicating that something else
+must be pulling this site temperature lower than the clumped data would
+indicate on its own. I've tried to use a realistic uncertainty on the clumped 
+proxy (1 sd = 0.05 per mil), which we could revisit. But w/ the value I've used 
+these posterior values are ~1-2 SD away from the mean.
+* Note that this same site has a bunch of CIA data shown above, and the 
+posterior MAT is several degrees warmer that you'd predict based on the CIA
+data alone. So there's a tradeoff w/ these two proxies pulling in different
+directions at this site.
+
+## Oxygen isotopes
+
+I'm using carbonate $\delta$^18^O data from 2 Carnian and 4 Anisian sites. 
+The lines on the plot show predicted average continental carbonate values as a 
+function of temperature for the model prior (black) and posteriors (colors as 
+throughout). This is derived in two steps:
+
+* Precipitation $\delta$^18^O value is a function of temperature. The prior uses 
+the classic modern empirical relationship. The slope and intercept of the 
+relationship are model parameters which are sampled separately and optimized
+for each stage.
+* Carbonate $\delta$^18^O value is a function of the local precipitation 
+$\delta$^18^O value and temperature.
+
+The data are plotted as above, with the posterior median MAT on the x axis and
+the measured proxy value on the y axis. Fpr simplicity I'm not showing 
+
+```{r}
+
+mat = 0:40
+d18O.prior = -14 + 0.59 * mat
+d18Oc.prior = (d18O.prior + (2.78e6 / (mat + 273) ^ 2 + -2.98)) * 0.97002 - 29.98
+
+d18O.car.post = c(pm$d.car) + c(pm$e.car) * mat
+d18Oc.car.post = (d18O.car.post + (2.78e6 / (mat + 273) ^ 2 + -2.98)) * 0.97002 - 29.98
+
+d18O.an.post = c(pm$d.an) + c(pm$e.an) * mat
+d18Oc.an.post = (d18O.an.post + (2.78e6 / (mat + 273) ^ 2 + -2.98)) * 0.97002 - 29.98
+
+plot(mat, d18Oc.prior, type = "l", 
+     ylim = range(c(d18Oc.prior, d18Oc.an.post, d18Oc.car.post,
+                    pc_samples.car$d18O, pc_samples.an$d18O)),
+     xlab = "MAT", ylab = expression(delta^{18}*"O paleosol carb"))
+lines(mat, d18Oc.car.post, col = col.c)
+lines(mat, d18Oc.an.post, col = col.a)
+
+points(pm$t_cont.car[pc_sites.ind.car], pc_samples.car$d18O, pch = 20, col = col.c)
+points(pm$t_cont.an[pc_sites.ind.an], pc_samples.an$d18O, pch = 20, col = col.a)
+
+text(pm$t_cont.car[pc_sites.ind.car], par("usr")[4], pc_sites.ind.car, 
+     xpd = NA, pos = 3, col = col.c)
+
+text(pm$t_cont.an[pc_sites.ind.an], par("usr")[4], pc_sites.ind.an, 
+     xpd = NA, pos = 3, offset = 1.25, col = col.a)
+
+```
+
+The big take-home here is that terrestrial carbonate $\delta$^18^O values are 
+really low.
+
+* First, notice that the almost all of the data fall way below the modern/prior 
+$\delta$^18^O/MAT relationship. The posterior MATs are much higher than you'd
+get if you interpreted the proxy data based on the modern relationship alone.
+So the carbonate oxygen isotope data are pulling the reconstructed MATs toward
+lower values.
+* The fact that the relationship between precipitation $\delta$^18^O and 
+temperature is flexible allows the model to accommodate this to a large degree, 
+as reflected in the posterior curves, but huge deviations from the prior come 
+at a probability cost, so there's a balance here and the net effect is a pull
+toward lower MATs.
+
+Moreover, looking at the five sites in the broader context is revealing:
+
+* The cluster of 3 sites on the left of the plot are all sites where other
+proxy data are available. Carnian 1 has CIA data, and the posterior
+    + Carnian 1 (Los Rastros) has CIA data, and the posterior MAT is pretty much
+    exactly what you'd predict based on the CIA values, suggesting that (to 
+    some degree) the CIA data are confirming the MAT preferred given the 
+    carbonate $\delta$^18^O data.
+    + Carnian 4 (Ischigualasto) has PWI data, and, again, the MATs are a great 
+    match to those data. You can see that for this site the $\delta$^18^O
+    actually prefers slightly lower MAT relative to Los Rastros (and the prior
+    estimate of site latitude is higher), but the PWI slightly outcompetes 
+    those and pulls the MAT toward higher values.
+    + Anisian 1 (Puntudo) has Al/Si data. For this one the Al/SI would prefer
+    *much* lower MAT, and the influence of those data is probably why the 
+    Anisian posterior $\delta$^18^O/MAT relationship is quite a bit lower than 
+    that for the Carnian. 
+* The 3 Anisian sites on the right of the plot are sites that have only
+carbonate $\delta$^18^O data (no other proxies). You can see that the 
+reconstructed MATs are biased warm (lower/right) relative even to the modeled
+$\delta$^18^O/MAT relationship for the Anisian. This is almost certainly the
+result of the meridional temperature gradient 'pulling' them toward warmer MATs.
+For site 3 (Utah) this will be strongly influenced by the abundant low-latitude
+marine proxy data. For the others, the fact that the prior on the meridional
+MAT gradient is based on the modern, and having a much steeper gradient in
+the Anisian comes at a probability cost, pulls the MATs at these sites toward
+higher (lower gradient) temperatures. (Incidentally, it also pulls them toward
+higher paleolatitudes...the posterior paleolatitudes for these sites are much
+higher than the mean of the prior.)
+
+## Summary and thoughts on next steps
+
+Hopefully the above shows how the different terrestrial proxy data contribute 
+to the reconstruction we obtained, and that the reconstructed values are not
+at all inconsistent with the proxy data when everything is taken together. I
+don't see these interpretations fundamentally changing.
+
+Here are a few thoughts on things that we could try which might nudge things a
+bit.
+
+* As Randy suggested we could model the continental and marine meridional
+MAT gradients separately. I've plotted up the BRIDGE paleotemperature gradients
+separately for marine and terrestrial in our figure, and as one would expect
+the terrestrial one is steeper and the modeled terrestrial MATs are lower than
+the marine values at paleolatitudes above ~45-55 degrees. That's not going to 
+strongly affect many of our sites but it's worth considering and would be
+easy to incorporate in the model.
+* Maybe more substantial, I'm currently assuming terrestrial carbonates are
+forming at MAT. If the formation temperatures are strongly biased toward warm
+season, that could shift the carbonate $\delta$^18^O at a given MAT 2-3 per mil
+lower, accounting for some of the discrepancy seen in the carbonate figure
+above. Again, I don't think that this will fully do away with the steep 
+gradients (as discussed above they are supported by other proxy data) but it
+will likely reduce them.
+* We can check on the uncertainty estimates I'm using for the clumped 
+measurements. I don't think they're too far off, but might be able to justify
+reducing them, which would pull the Indian site warmer.
