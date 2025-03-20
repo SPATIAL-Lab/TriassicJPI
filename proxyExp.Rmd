@@ -205,7 +205,7 @@ d18Oc.an.post = (d18O.an.post + (2.78e6 / (mat + 273) ^ 2 + -2.98)) * 0.97002 - 
 plot(mat, d18Oc.prior, type = "l", 
      ylim = range(c(d18Oc.prior, d18Oc.an.post, d18Oc.car.post,
                     pc_samples.car$d18O, pc_samples.an$d18O)),
-     xlab = "MAT", ylab = expression(delta^{18}*"O paleosol carb"))
+     xlab = "MAT", ylab = expression(delta^{18}*"O terrestrial carb"))
 lines(mat, d18Oc.car.post, col = col.c)
 lines(mat, d18Oc.an.post, col = col.a)
 
@@ -247,7 +247,7 @@ proxy data are available. Carnian 1 has CIA data, and the posterior
     actually prefers slightly lower MAT relative to Los Rastros (and the prior
     estimate of site latitude is higher), but the PWI slightly outcompetes 
     those and pulls the MAT toward higher values.
-    + Anisian 1 (Puntudo) has Al/Si data. For this one the Al/SI would prefer
+    + Anisian 1 (Puntudo) has Al/Si data. For this one the Al/Si would prefer
     *much* lower MAT, and the influence of those data is probably why the 
     Anisian posterior $\delta$^18^O/MAT relationship is quite a bit lower than 
     that for the Carnian. 
