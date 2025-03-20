@@ -9,11 +9,6 @@ d = list(lats_mar.an = lats_mar.an, lats_cont.an = lats_cont.an,
          mp_data.an = mp_samples.an$d18O, mc_data.an = mc_samples.an$d18O,
          clump_data.an = clump_data.an, pc_data.an = pc_samples.an$d18O,
          cia_data.an = cia_samples.an$CIA, alsi_data.an = alsi_samples.an$AlSi,
-         lats_mar.lad = lats_mar.lad, lats_cont.lad = lats_cont.lad,
-         mp_sites.ind.lad = mp_sites.ind.lad, mc_sites.ind.lad = mc_sites.ind.lad,
-         cia_sites.ind.lad = cia_sites.ind.lad,
-         mp_data.lad = mp_samples.lad$d18O, mc_data.lad = mc_samples.lad$d18O,
-         cia_data.lad = cia_samples.lad$CIA,
          lats_mar.car = lats_mar.car, lats_cont.car = lats_cont.car,
          mp_sites.ind.car = mp_sites.ind.car, mc_sites.ind.car = mc_sites.ind.car,
          pc_sites.ind.car = pc_sites.ind.car, cia_sites.ind.car = cia_sites.ind.car,
@@ -22,22 +17,16 @@ d = list(lats_mar.an = lats_mar.an, lats_cont.an = lats_cont.an,
          pc_data.car = pc_samples.car$d18O, cia_data.car = cia_samples.car$CIA,
          alsi_data.car = alsi_samples.car$AlSi, pwi_data.car = pwi_samples.car$PWI,
          alsi_cal = alsi_cal, cia_cal = cia_cal, pwi_cal = pwi_cal)
-parms = c("a.an", "b.an", "c.an", "d.an", "e.an", "t_cont_off.an", "dO_cont_off.an", 
+parms = c("a.an", "b.an", "c.an", "d.an", "e.an", "t_seas.an", "dO_cont_off.an", "dO_mar.mu",
           "t_mar.an", "dO_mar.an", "t_cont.an", "dO_cont.an", "lat_mar.an", "lat_cont.an",
-          "a.lad", "b.lad", "c.lad", "t_cont_off.lad", 
-          "t_mar.lad", "dO_mar.lad", "t_cont.lad", "dO_cont.lad", "lat_mar.lad", "lat_cont.lad",
-          "a.car", "b.car", "c.car", "d.car", "e.car", "t_cont_off.car", "dO_cont_off.car", 
+          "a.car", "b.car", "c.car", "d.car", "e.car", "t_seas.car", "dO_cont_off.car", 
           "t_mar.car", "dO_mar.car", "t_cont.car", "dO_cont.car", "lat_mar.car", "lat_cont.car",
           "alsi_var", "alsi_slope", "alsi_int", "cia_var", "cia_slope", "cia_int",
           "pwi_var", "pwi_a", "pwi_b")
 
 # Some parameters for the sampler
-n.iter = 50000
-n.burnin = 1000
-n.thin = 10
-
 post = jags.parallel(model.file = "code/modelAll.R", parameters.to.save = parms, data = d,
-                 inits = NULL, n.chains = 3, n.iter = 50000, n.burnin = 1000,
+                 inits = NULL, n.chains = 3, n.iter = 1e5, n.burnin = 1e4,
                  n.thin = 10)
 
 # Diagnostics

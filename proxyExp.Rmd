@@ -1,7 +1,7 @@
 ---
 title: "Proxy Exploration"
 author: "Gabriel Bowen"
-date: "2024-12-19"
+date: "2025-03-20"
 output: html_document
 ---
 
@@ -33,10 +33,10 @@ I'll refer to the sites by number for convenience, here's the key:
 
 ```{r sites, echo=FALSE}
 
-print("Carnian")
+print("Carnian = pink")
 cont_sites.car
 
-print("Anisian")
+print("Anisian = blue")
 cont_sites.an
 
 ```
@@ -150,28 +150,28 @@ represented as a line. Only one Anisian site.
 
 ```{r clumped, echo=FALSE}
 
-plot(10:25, 6.36e4 / (10:25 + 273) ^ 2 + -4.7e-3, type = "l", 
+plot(10:35, 6.36e4 / (10:35 + 273) ^ 2 + -4.7e-3, type = "l", 
      xlab = "MAT", ylab = expression(Delta*47),
-     ylim = range(c(6.36e4 / (10:25 + 273) ^ 2 + -4.7e-3, 
+     ylim = range(c(6.36e4 / (10:35 + 273) ^ 2 + -4.7e-3, 
                     clump_samples.an$cap_47)))
 
 points(pm$t_cont.an[clump_sites.ind.an], clump_samples.an$cap_47,
        pch = 20, col = col.a)
+
+points(pm$t_seas.an[clump_sites.ind.an], clump_samples.an$cap_47,
+       col = col.a)
 
 text(pm$t_cont.an[clump_sites.ind.an], par("usr")[4], clump_sites.ind.an, 
      xpd = NA, pos = 3, col = col.a)
 
 ```
 
-* The JPI posterior MAT is on the low side, indicating that something else
-must be pulling this site temperature lower than the clumped data would
-indicate on its own. I've tried to use a realistic uncertainty on the clumped 
-proxy (1 sd = 0.05 per mil), which we could revisit. But w/ the value I've used 
-these posterior values are ~1-2 SD away from the mean.
+* The JPI posterior is pretty much spot on after accounting for seasonality.
+The closed symbols are MAT, the open ones are summer temperature.
 * Note that this same site has a bunch of CIA data shown above, and the 
-posterior MAT is several degrees warmer that you'd predict based on the CIA
-data alone. So there's a tradeoff w/ these two proxies pulling in different
-directions at this site.
+posterior MAT is at the warm side of the range that you'd predict based on the 
+CIA data alone. The MAT at this site declined slightly when seasonality was
+included, making the CIA results more congruent.
 
 ## Oxygen isotopes
 
@@ -185,7 +185,13 @@ the classic modern empirical relationship. The slope and intercept of the
 relationship are model parameters which are sampled separately and optimized
 for each stage.
 * Carbonate $\delta$^18^O value is a function of the local precipitation 
-$\delta$^18^O value and temperature.
+$\delta$^18^O value and temperature. Previously we had been using MAT to 
+describe fractionation in this step, which is reflected in the solid lines 
+below. Now we're using summer season temperature. Because the relationship
+between MAT and summer temperature is a function of both MAT and latitude we 
+can't plot a single line representing this, but I've approximated the 
+relationship by plotting the predicted carbonate $\delta$^18^O values using
+summer season temperature for a site at 45$^\circ$ latitude (dotted lines).
 
 The data are plotted as above, with the posterior median MAT on the x axis and
 the measured proxy value on the y axis. 
@@ -193,21 +199,30 @@ the measured proxy value on the y axis.
 ```{r oxygen, echo=FALSE}
 
 mat = 0:40
+c_cont = -mat + 1.4836 - 0.2738 * 45
+t_seas = (-0.9189 + sqrt(0.9189 ^ 2 - 4 * -0.0015 * c_cont)) /
+      (2 * -0.0015)
 d18O.prior = -14 + 0.59 * mat
 d18Oc.prior = (d18O.prior + (2.78e6 / (mat + 273) ^ 2 + -2.98)) * 0.97002 - 29.98
+d18Oc.prior.seas = (d18O.prior + (2.78e6 / (t_seas + 273) ^ 2 + -2.98)) * 0.97002 - 29.98
 
 d18O.car.post = c(pm$d.car) + c(pm$e.car) * mat
 d18Oc.car.post = (d18O.car.post + (2.78e6 / (mat + 273) ^ 2 + -2.98)) * 0.97002 - 29.98
+d18Oc.car.post.seas = (d18O.car.post + (2.78e6 / (t_seas + 273) ^ 2 + -2.98)) * 0.97002 - 29.98
 
 d18O.an.post = c(pm$d.an) + c(pm$e.an) * mat
 d18Oc.an.post = (d18O.an.post + (2.78e6 / (mat + 273) ^ 2 + -2.98)) * 0.97002 - 29.98
+d18Oc.an.post.seas = (d18O.an.post + (2.78e6 / (t_seas + 273) ^ 2 + -2.98)) * 0.97002 - 29.98
 
 plot(mat, d18Oc.prior, type = "l", 
      ylim = range(c(d18Oc.prior, d18Oc.an.post, d18Oc.car.post,
                     pc_samples.car$d18O, pc_samples.an$d18O)),
      xlab = "MAT", ylab = expression(delta^{18}*"O terrestrial carb"))
+lines(mat, d18Oc.prior.seas, lty = 3)
 lines(mat, d18Oc.car.post, col = col.c)
+lines(mat, d18Oc.car.post.seas, col = col.c, lty = 3)
 lines(mat, d18Oc.an.post, col = col.a)
+lines(mat, d18Oc.an.post.seas, col = col.a, lty = 3)
 
 points(pm$t_cont.car[pc_sites.ind.car], pc_samples.car$d18O, pch = 20, col = col.c)
 points(pm$t_cont.an[pc_sites.ind.an], pc_samples.an$d18O, pch = 20, col = col.a)
@@ -221,20 +236,24 @@ text(pm$t_cont.an[pc_sites.ind.an], par("usr")[4], pc_sites.ind.an,
 ```
 
 The big take-home here is that terrestrial carbonate $\delta$^18^O values are 
-really low.
+low relative to the prior, especially at the warmer sites. This means that the
+carbonate $\delta$^18^O data are 'pulling' the results toward lower MATs. This 
+deviation is smaller if you account for seasonality.
 
-* First, notice that the almost all of the data fall way below the modern/prior 
-$\delta$^18^O/MAT relationship. The posterior MATs are much higher than you'd
-get if you interpreted the proxy data based on the modern relationship alone.
-So the carbonate oxygen isotope data are pulling the reconstructed MATs toward
-lower values.
-* The fact that the relationship between precipitation $\delta$^18^O and 
-temperature is flexible allows the model to accommodate this to a large degree, 
-as reflected in the posterior curves, but huge deviations from the prior come 
-at a probability cost, so there's a balance here and the net effect is a pull
-toward lower MATs.
+Previously this deviation was mostly accommodated by the relationship between
+MAT and precipitation $\delta$^18^O values, which was shifted toward lower
+$\delta$^18^O values relative to the prior. You still see this here, but it
+is much less severe than it used to be because using the warmer summer
+temperatures for calcite formation account for several ‰ of the 
+deviation.
 
-Moreover, looking at the five sites in the broader context is revealing:
+So using summer temperatures for calcite precipitation improves the fit between
+the data and the posterior climate estimates overall. That said, it doesn't 
+change the actually posterior climate estimates much at all...the improved fit
+is in the form of either 1) the data better matching the model estimates (e.g., 
+clumped), or 2) the posterior estimates of model parameters deviating less from
+the priors (e.g., MAT - precipitation $\delta$^18^O relationship). So the same
+comparative assessments largely stand:
 
 * The cluster of 3 sites on the left of the plot are all sites where other
 proxy data are available. Carnian 1 has CIA data, and the posterior
@@ -245,7 +264,7 @@ proxy data are available. Carnian 1 has CIA data, and the posterior
     + Carnian 4 (Ischigualasto) has PWI data, and, again, the MATs are a great 
     match to those data. You can see that for this site the $\delta$^18^O
     actually prefers slightly lower MAT relative to Los Rastros (and the prior
-    estimate of site latitude is higher), but the PWI slightly outcompetes 
+    estimate of site latitude is higher), but the PWI slightly out competes 
     those and pulls the MAT toward higher values.
     + Anisian 1 (Puntudo) has Al/Si data. For this one the Al/Si would prefer
     *much* lower MAT, and the influence of those data is probably why the 
@@ -263,31 +282,3 @@ the Anisian comes at a probability cost, pulls the MATs at these sites toward
 higher (lower gradient) temperatures. (Incidentally, it also pulls them toward
 higher paleolatitudes...the posterior paleolatitudes for these sites are much
 higher than the mean of the prior.)
-
-## Summary and thoughts on next steps
-
-Hopefully the above shows how the different terrestrial proxy data contribute 
-to the reconstruction we obtained, and that the reconstructed values are not
-at all inconsistent with the proxy data when everything is taken together. I
-don't see these interpretations fundamentally changing.
-
-Here are a few thoughts on things that we could try which might nudge things a
-bit.
-
-* As Randy suggested we could model the continental and marine meridional
-MAT gradients separately. I've plotted up the BRIDGE paleotemperature gradients
-separately for marine and terrestrial in our figure, and as one would expect
-the terrestrial one is steeper and the modeled terrestrial MATs are lower than
-the marine values at paleolatitudes above ~45-55 $^\circ$. That's not going to 
-strongly affect many of our sites but it's worth considering and would be
-easy to incorporate in the model.
-* Maybe more substantial, I'm currently assuming terrestrial carbonates are
-forming at MAT. If the formation temperatures are strongly biased toward warm
-season, that could shift the carbonate $\delta$^18^O at a given MAT 2-3 per mil
-lower, accounting for some of the discrepancy seen in the carbonate figure
-above. Again, I don't think that this will fully do away with the steep 
-gradients (as discussed above they are supported by other proxy data) but it
-will likely reduce them.
-* We can check on the uncertainty estimates I'm using for the clumped 
-measurements. I don't think they're too far off, but might be able to justify
-reducing them, which would pull the Indian site warmer.

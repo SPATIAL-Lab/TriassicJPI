@@ -10,7 +10,7 @@ l = 0:70
 pdf("out/T_grad_noLad.pdf", width = 6, height = 8)
 layout(matrix(c(1, 2), ncol = 1))
 
-par(mai = c(0, 1, 0.1, 0.1))
+par(mai = c(1, 1, 0.1, 0.1))
 plot(l, 23 + l * 0.22 + l^2 * -0.008, type = "l", lwd = 2, ylim = c(0,43),
      xlim = c(2, 70), xlab = "Latitude", ylab = "Mean temperature")
 for(i in seq(1, nrow(sl$a.car), length.out = 1000)){
@@ -143,12 +143,6 @@ for(i in seq(1, nrow(sl$a.an), length.out = 1000)){
           l^2 * sl$c.an[i], 
         col = rgb(0.2,0.6,1,0.01))
 }
-for(i in seq(1, nrow(sl$a.lad), length.out = 1000)){
-  lines(l, sl$a.lad[i] + l * 
-          sl$b.lad[i] + 
-          l^2 * sl$c.lad[i], 
-        col = rgb(1,0.6,0.2,0.01))
-}
 for(i in seq(1, nrow(sl$a.car), length.out = 1000)){
   lines(l, sl$a.car[i] + l * 
           sl$b.car[i] + 
@@ -157,8 +151,6 @@ for(i in seq(1, nrow(sl$a.car), length.out = 1000)){
 }
 lines(l, c(post$BUGSoutput$mean$a.an) + l * c(post$BUGSoutput$mean$b.an) + 
         l^2 * c(post$BUGSoutput$mean$c.an), col = rgb(0.2,0.6,1))
-lines(l, c(post$BUGSoutput$mean$a.lad) + l * c(post$BUGSoutput$mean$b.lad) + 
-        l^2 * c(post$BUGSoutput$mean$c.lad), col = rgb(1,0.6,0.2))
 lines(l, c(post$BUGSoutput$mean$a.car) + l * c(post$BUGSoutput$mean$b.car) + 
         l^2 * c(post$BUGSoutput$mean$c.car), col = rgb(1,0.2,0.6))
 
@@ -178,23 +170,6 @@ arrows(post$BUGSoutput$mean$lat_cont.an,
        col = rgb(0.2,0.6,1))
 points(post$BUGSoutput$mean$lat_cont.an, post$BUGSoutput$mean$t_cont.an, 
        pch = 21, bg = "dark grey", col = rgb(0.2,0.6,1))
-
-arrows(post$BUGSoutput$mean$lat_mar.lad, 
-       post$BUGSoutput$mean$t_mar.lad - post$BUGSoutput$sd$t_mar.lad, 
-       post$BUGSoutput$mean$lat_mar.lad, 
-       post$BUGSoutput$mean$t_mar.lad + post$BUGSoutput$sd$t_mar.lad, 
-       angle = 90, length = 0.05, code = 3, col = rgb(1,0.6,0.2))
-points(post$BUGSoutput$mean$lat_mar.lad, 
-       post$BUGSoutput$mean$t_mar.lad, pch = 21, bg = "white", 
-       col = rgb(1,0.6,0.2))
-arrows(post$BUGSoutput$mean$lat_cont.lad, 
-       post$BUGSoutput$mean$t_cont.lad - post$BUGSoutput$sd$t_cont.lad, 
-       post$BUGSoutput$mean$lat_cont.lad, 
-       post$BUGSoutput$mean$t_cont.lad + post$BUGSoutput$sd$t_cont.lad, 
-       angle = 90, length = 0.05, code = 3, 
-       col = rgb(1,0.6,0.2))
-points(post$BUGSoutput$mean$lat_cont.lad, post$BUGSoutput$mean$t_cont.lad, 
-       pch = 21, bg = "dark grey", col = rgb(1,0.6,0.2))
 
 arrows(post$BUGSoutput$mean$lat_mar.car, 
        post$BUGSoutput$mean$t_mar.car - post$BUGSoutput$sd$t_mar.car, 
