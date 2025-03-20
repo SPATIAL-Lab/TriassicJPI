@@ -16,6 +16,7 @@ mSamples.an = read.xlsx(dfile, sheet = "Mar_d18O")
 mar_sites.an = read.xlsx(dfile, sheet = "Mar_Sites")
 
 # Split out marine phosphate and carbonate d18O
+## Now need dolomite, too
 mp_samples.an = mSamples.an[mSamples.an$Material == "conP",]
 mc_samples.an = mSamples.an[mSamples.an$Material != "conP",]
 
@@ -38,8 +39,12 @@ lats_mar.an = as.matrix(mar_sites.an[,c("lat_min", "lat_max")])
 dfile = "data/dataCarnian.xlsx"
 pc_samples.car = read.xlsx(dfile, sheet = "Cont_d18O")
 cia_samples.car = read.xlsx(dfile, sheet = "Cont_CIA")
+## Remove a couple of rogue data from Germany
+cia_samples.car = cia_samples.car[cia_samples.car$CIA < 5,]
 alsi_samples.car = read.xlsx(dfile, sheet = "Cont_AlSi")
 pwi_samples.car = read.xlsx(dfile, sheet = "Cont_PWI")
+## Test removing these very high PWI values
+pwi_samples.car = pwi_samples.car[pwi_samples.car$Site != "Chanares",]
 cont_sites.car = read.xlsx(dfile, sheet = "Cont_Sites")
 mSamples.car = read.xlsx(dfile, sheet = "Mar_d18O")
 mar_sites.car = read.xlsx(dfile, sheet = "Mar_Sites")

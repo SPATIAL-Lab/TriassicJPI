@@ -125,7 +125,7 @@ model{
   for(i in 1:length(lats_cont.an[, 1])){
     dO_cont.an[i] = dO_cont_m.an[i] + dO_cont_off.an[i]
     dO_cont_off.an[i] ~ dnorm(dO_cont_off.mu, dO_cont_off.pre)
-    dO_cont_m.an[i] = d.an + e.an * t_cont.an[i]
+    dO_cont_m.an[i] = dO_mar.mu + d.an + e.an * t_cont.an[i]
 
     t_seas.an[i] = (-0.9189 + sqrt(0.9189 ^ 2 - 4 * -0.0015 * c_cont.an[i])) /
       (2 * -0.0015)
@@ -140,7 +140,7 @@ model{
   for(i in 1:length(lats_cont.car[, 1])){
     dO_cont.car[i] = dO_cont_m.car[i] + dO_cont_off.car[i]
     dO_cont_off.car[i] ~ dnorm(dO_cont_off.mu, dO_cont_off.pre)
-    dO_cont_m.car[i] = d.car + e.car * t_cont.car[i]
+    dO_cont_m.car[i] = dO_mar.mu + d.car + e.car * t_cont.car[i]
     
     t_seas.car[i] = (-0.9189 + sqrt(0.9189 ^ 2 - 4 * -0.0015 * c_cont.car[i])) /
       (2 * -0.0015)
@@ -185,7 +185,7 @@ model{
     lat_mar.car[i] ~ dunif(lats_mar.car[i, 1], lats_mar.car[i, 2])
   }
   
-  dO_mar.mu = 0
+  dO_mar.mu ~ dnorm(-1.5, 30)
   dO_mar.pre = 10
   
   t_mar.pre = 1
@@ -200,7 +200,7 @@ model{
   c.mu = -0.008
   c.pre = 1e5
   b.mu = 0.22
-  b.pre = 500
+  b.pre = 1000
   a.mu = 23
   a.pre = 0.25
   

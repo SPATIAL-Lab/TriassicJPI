@@ -17,7 +17,7 @@ d = list(lats_mar.an = lats_mar.an, lats_cont.an = lats_cont.an,
          pc_data.car = pc_samples.car$d18O, cia_data.car = cia_samples.car$CIA,
          alsi_data.car = alsi_samples.car$AlSi, pwi_data.car = pwi_samples.car$PWI,
          alsi_cal = alsi_cal, cia_cal = cia_cal, pwi_cal = pwi_cal)
-parms = c("a.an", "b.an", "c.an", "d.an", "e.an", "t_seas.an", "dO_cont_off.an", 
+parms = c("a.an", "b.an", "c.an", "d.an", "e.an", "t_seas.an", "dO_cont_off.an", "dO_mar.mu",
           "t_mar.an", "dO_mar.an", "t_cont.an", "dO_cont.an", "lat_mar.an", "lat_cont.an",
           "a.car", "b.car", "c.car", "d.car", "e.car", "t_seas.car", "dO_cont_off.car", 
           "t_mar.car", "dO_mar.car", "t_cont.car", "dO_cont.car", "lat_mar.car", "lat_cont.car",
@@ -25,12 +25,8 @@ parms = c("a.an", "b.an", "c.an", "d.an", "e.an", "t_seas.an", "dO_cont_off.an",
           "pwi_var", "pwi_a", "pwi_b")
 
 # Some parameters for the sampler
-n.iter = 50000
-n.burnin = 1000
-n.thin = 10
-
 post = jags.parallel(model.file = "code/modelAll.R", parameters.to.save = parms, data = d,
-                 inits = NULL, n.chains = 3, n.iter = 50000, n.burnin = 1000,
+                 inits = NULL, n.chains = 3, n.iter = 1e5, n.burnin = 1e4,
                  n.thin = 10)
 
 # Diagnostics

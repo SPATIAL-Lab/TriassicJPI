@@ -1,7 +1,7 @@
 ---
 title: "Proxy Exploration"
 author: "Gabriel Bowen"
-date: "2024-12-19"
+date: "2025-03-20"
 output: html_document
 ---
 
@@ -33,10 +33,10 @@ I'll refer to the sites by number for convenience, here's the key:
 
 ```{r sites, echo=FALSE}
 
-print("Carnian")
+print("Carnian = pink")
 cont_sites.car
 
-print("Anisian")
+print("Anisian = blue")
 cont_sites.an
 
 ```
