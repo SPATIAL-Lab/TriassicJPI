@@ -1,0 +1,155 @@
+---
+title: "Marine Proxies"
+author: "Gabriel Bowen"
+date: "2025-03-21"
+editor: source
+---
+
+```{r setup, include=FALSE}
+source("code/prepData.R")
+load("bigout/post.rda")
+source("code/prepBridge.R")
+
+pm = post$BUGSoutput$median
+sl = post$BUGSoutput$sims.list
+
+col.c = rgb(1, 0.2, 0.6)
+col.a = rgb(0.2, 0.6, 1)
+
+knitr::opts_knit$set(global.par = TRUE)
+```
+
+Let's look at the marine proxy data. These results are from a new run which produces lower gradients and also lower tropical MAT values. Here is the gradient plot.
+
+```{r gradient}
+#| echo: FALSE
+#| fig.height: 10
+l = 0:70
+layout(matrix(c(1, 2), ncol = 1))
+par(mar = c(5, 5, 1, 1))
+
+plot(l, 23 + l * 0.22 + l^2 * -0.008, type = "l", lwd = 2, ylim = c(0,43),
+     xlim = c(2, 70), xlab = "Latitude", ylab = "Mean temperature")
+for(i in seq(1, nrow(sl$a.car), length.out = 1000)){
+  lines(l, sl$a.car[i] + l * 
+          sl$b.car[i] + 
+          l^2 * sl$c.car[i], 
+        col = rgb(1, 0.2, 0.6, 0.02))
+}
+lines(l, c(post$BUGSoutput$mean$a.car) + l * c(post$BUGSoutput$mean$b.car) + 
+        l^2 * c(post$BUGSoutput$mean$c.car), col = col.c, lwd = 2)
+
+lines(zMeans$lat, zMeans$car, col = col.c)
+lines(zMeans$lat, zMeans$carC, col = col.c, lty = 2)
+
+arrows(post$BUGSoutput$mean$lat_mar.car, 
+       post$BUGSoutput$mean$t_mar.car - post$BUGSoutput$sd$t_mar.car, 
+       post$BUGSoutput$mean$lat_mar.car, 
+       post$BUGSoutput$mean$t_mar.car + post$BUGSoutput$sd$t_mar.car, 
+       angle = 90, length = 0.05, code = 3, col = col.c)
+points(post$BUGSoutput$mean$lat_mar.car, 
+       post$BUGSoutput$mean$t_mar.car, pch = 21, bg = "white", 
+       col = col.c)
+arrows(post$BUGSoutput$mean$lat_cont.car, 
+       post$BUGSoutput$mean$t_cont.car - post$BUGSoutput$sd$t_cont.car, 
+       post$BUGSoutput$mean$lat_cont.car, 
+       post$BUGSoutput$mean$t_cont.car + post$BUGSoutput$sd$t_cont.car, 
+       angle = 90, length = 0.05, code = 3, 
+       col = col.c)
+points(post$BUGSoutput$mean$lat_cont.car, post$BUGSoutput$mean$t_cont.car, 
+       pch = 21, bg = "dark grey", col = col.c)
+
+plot(l, 23 + l * 0.22 + l^2 * -0.008, type = "l", lwd = 2, ylim = c(0,43),
+     xlim = c(2, 70), xlab = "Latitude", ylab = "Mean temperature")
+
+for(i in seq(1, nrow(sl$a.an), length.out = 1000)){
+  lines(l, sl$a.an[i] + l * 
+          sl$b.an[i] + 
+          l^2 * sl$c.an[i], 
+        col = rgb(0.2, 0.6, 1, 0.02))
+}
+lines(l, c(post$BUGSoutput$mean$a.an) + l * c(post$BUGSoutput$mean$b.an) + 
+        l^2 * c(post$BUGSoutput$mean$c.an), col = col.a, lwd = 2)
+
+lines(zMeans$lat, zMeans$an, col = col.a)
+lines(zMeans$lat, zMeans$anC, col = col.a, lty = 2)
+
+arrows(post$BUGSoutput$mean$lat_mar.an, 
+       post$BUGSoutput$mean$t_mar.an - post$BUGSoutput$sd$t_mar.an, 
+       post$BUGSoutput$mean$lat_mar.an, 
+       post$BUGSoutput$mean$t_mar.an + post$BUGSoutput$sd$t_mar.an, 
+       angle = 90, length = 0.05, code = 3, col = col.a)
+points(post$BUGSoutput$mean$lat_mar.an, 
+       post$BUGSoutput$mean$t_mar.an, pch = 21, bg = "white", 
+       col = col.a)
+arrows(post$BUGSoutput$mean$lat_cont.an, 
+       post$BUGSoutput$mean$t_cont.an - post$BUGSoutput$sd$t_cont.an, 
+       post$BUGSoutput$mean$lat_cont.an, 
+       post$BUGSoutput$mean$t_cont.an + post$BUGSoutput$sd$t_cont.an, 
+       angle = 90, length = 0.05, code = 3, 
+       col = col.a)
+points(post$BUGSoutput$mean$lat_cont.an, post$BUGSoutput$mean$t_cont.an, 
+       pch = 21, bg = "dark grey", col = col.a)
+dev.off()
+```
+
+This version includes the new continental data (in addition to CIA I also added the Al:Si ratios for the new German site and both proxy methods are being used there), but the biggest difference is that I have changed the parameterization for the average $\delta^{18}O$ value of seawater. 
+
+Previously this was set to a fixed value of zero. The local seawater $\delta^{18}O$ value was picked from a distribution around this mean, so there was a little variation from site to site but the values tended to be close to zero. I realized that in an ice-free Triassic 
+* a mean value of zero was probably too high, and 
+* this mean value was unknown. 
+In the new model the mean seawater $\delta^{18}O$ value is a model parameter that is picked from a distribution, and this distribution is centered on a value of -0.75 per mil to reflect the lack of continental ice.
+
+This has a pretty big impact on the marine temperatures and thus the low-latitude end of our gradients. Here are the proxy data for marine calcite: 
+
+```{r setpar}
+#| include: FALSE
+dev.off()
+par(mar = c(5, 5, 1, 1))
+```
+
+```{r calcite}
+#| echo: FALSE
+MAT = 15:40
+plot(MAT, (0 + (2.78e6 / (MAT + 273) ^ 2 + -2.98)) * 0.97002 - 29.98, 
+     ylim = range(c(mc_samples.car$d18O, mc_samples.car$d18O)), type = "l", xlab = "MAT", 
+     ylab = expression(delta^{18}*"O marine calcite"))
+lines(MAT, (c(pm$dO_mar.mu) + (2.78e6 / (MAT + 273) ^ 2 + -2.98)) * 0.97002 - 29.98,
+      lty = 3)
+points(pm$t_mar.car[mc_sites.ind.car], mc_samples.car$d18O, col = col.c)
+points(pm$t_mar.an[mc_sites.ind.an], mc_samples.an$d18O, col = col.a)
+```
+
+The solid and dashed lines represent the paleotemperature equation using a seawater $\delta^{18}O$ value of zero (solid) or -1.3 per mil (dashed; this is the median value from the JPI posterior). A few observations:
+
+* Comparing the data with the solid line, you can see why the tropics were so hot in our previous analyses: the calcite $\delta^{18}O$ values are very low. Aside from a small number of Carnian samples (pink) that plot nicely on the solid line, most of the data fall well below it. In the analyses that used the fixed seawater value of zero per mil the temperatures at these sites were pulled stongly toward higher values.
+* Allowing for lower seawater $\delta^{18}O$ values makes lower MAT values more consistent with these low carbonate $\delta^{18}O$ values. Because most of the continental proxy data are consistent with pretty low MAT (as described in the previous analysis), and because the parameterization of the meridional MAT gradient *prefers* gradients that are not so steep, the tropical marine temperaures decline substantially when we allow this change.
+* The distributions of carbonate values for the Carnian and Anisian are offset pretty strongly. I am assuming seawater $\delta^{18}O$ values are the same during both time periods (which I think is appropriate), so this translates to an offset in tropical MATs of ~10 degrees between the two stages.
+
+For comparison here are the same plots for phosphates and dolomites.
+
+```{r phosphate}
+#| echo: FALSE
+MAT = 15:40
+plot(MAT, (MAT - 118.7) / -4.22 + 0, 
+     ylim = range(c(mp_samples.car$d18O, mp_samples.car$d18O)), type = "l", xlab = "MAT", 
+     ylab = expression(delta^{18}*"O marine phosphate"))
+lines(MAT, (MAT - 118.7) / -4.22 + c(pm$dO_mar.mu), lty = 3)
+points(pm$t_mar.car[mp_sites.ind.car], mp_samples.car$d18O, col = col.c)
+points(pm$t_mar.an[mp_sites.ind.an], mp_samples.an$d18O, col = col.a)
+```
+
+The MATs would again be much higher using a seawater $\delta^{18}O$ of zero. Interestingly, the phosphate $\delta^{18}O$ are much more similar for the Anisian and Carnian than the values for calcite are, and if we just used phosphate data the marine tropical temperatures for the two stages would be pretty similar. Because there are a lot more calcite data these end up being more influential, though.
+
+```{r dolomite}
+#| echo: FALSE
+MAT = 15:40
+plot(MAT, (0 + (2.73e6 / (MAT + 273) ^ 2 + 0.26)) * 0.97002 - 29.98, 
+     ylim = range(md_samples.car$d18O), type = "l", xlab = "MAT", 
+     ylab = expression(delta^{18}*"O marine dolomite"))
+lines(MAT, (c(pm$dO_mar.mu) + (2.73e6 / (MAT + 273) ^ 2 + 0.26)) * 0.97002 - 29.98,
+      lty = 3)
+points(pm$t_mar.car[md_sites.ind.car], md_samples.car$d18O, col = col.c)
+```
+
+Not so sure about these dolomite data...with the exception of a few low-value outliers they are consistent w/ substantially lower temperatures regardless of what we use for the $\delta^{18}O$ value of seawater. It's only one site, though and in the full analysis they are largley overwhelmed by the other data. 
