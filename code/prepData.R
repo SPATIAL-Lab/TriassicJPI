@@ -16,7 +16,6 @@ mSamples.an = read.xlsx(dfile, sheet = "Mar_d18O")
 mar_sites.an = read.xlsx(dfile, sheet = "Mar_Sites")
 
 # Split out marine phosphate and carbonate d18O
-## Now need dolomite, too
 mp_samples.an = mSamples.an[mSamples.an$Material == "conP",]
 mc_samples.an = mSamples.an[mSamples.an$Material != "conP",]
 
@@ -44,17 +43,19 @@ cia_samples.car = cia_samples.car[cia_samples.car$CIA < 5,]
 alsi_samples.car = read.xlsx(dfile, sheet = "Cont_AlSi")
 pwi_samples.car = read.xlsx(dfile, sheet = "Cont_PWI")
 ## Test removing these very high PWI values
-pwi_samples.car = pwi_samples.car[pwi_samples.car$Site != "Chanares",]
+#pwi_samples.car = pwi_samples.car[pwi_samples.car$Site != "Chanares",]
 cont_sites.car = read.xlsx(dfile, sheet = "Cont_Sites")
 mSamples.car = read.xlsx(dfile, sheet = "Mar_d18O")
 mar_sites.car = read.xlsx(dfile, sheet = "Mar_Sites")
 
 # Split out marine phosphate and carbonate d18O
 mp_samples.car = mSamples.car[mSamples.car$Material == "conP",]
-mc_samples.car = mSamples.car[mSamples.car$Material != "conP",]
+md_samples.car = mSamples.car[mSamples.car$Material == "dolo",]
+mc_samples.car = mSamples.car[mSamples.car$Material %in% c("bC", "brach"),]
 
 # Generate site index vector for each dataset
 mp_sites.ind.car = match(mp_samples.car$Site, mar_sites.car$Site)
+md_sites.ind.car = match(md_samples.car$Site, mar_sites.car$Site)
 mc_sites.ind.car = match(mc_samples.car$Site, mar_sites.car$Site)
 pc_sites.ind.car = match(pc_samples.car$Site, cont_sites.car$Site)
 cia_sites.ind.car = match(cia_samples.car$Site, cont_sites.car$Site)
