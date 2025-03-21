@@ -15,25 +15,20 @@ col.c = rgb(1, 0.2, 0.6)
 col.a = rgb(0.2, 0.6, 1)
 
 knitr::opts_knit$set(global.par = TRUE)
-
 ```
 
 ```{r setpar, include=FALSE}
-
 par(mar = c(5, 5, 4, 1))
-
 ```
 
 Let's review the high-latitude (terrestrial) proxy data and its interpretation. I'll refer to the sites by number for convenience, here's the key:
 
 ```{r sites, echo=FALSE}
-
 print("Carnian = pink")
 cont_sites.car
 
 print("Anisian = blue")
 cont_sites.an
-
 ```
 
 
@@ -59,7 +54,6 @@ text(pm$t_cont.car[alsi_sites.ind.car], par("usr")[4], alsi_sites.ind.car,
 
 text(pm$t_cont.an[alsi_sites.ind.an], par("usr")[4], alsi_sites.ind.an, 
      xpd = NA, pos = 3, offset = 1.25, col = col.a)
-
 ```
 
 My observations:
@@ -73,7 +67,6 @@ My observations:
 Same thing for CIA, which is available at 4 Carnian and 2 Anisian sites.
 
 ```{r CIA, echo=FALSE}
-
 plot(CIA ~ Temp, data = cia_cal, xlab = "MAT",
      xlim = range(c(as.data.frame(cia_cal)$Temp, pm$t_cont.car[cia_sites.ind.car],
                     pm$t_cont.an[cia_sites.ind.an])),
@@ -91,7 +84,6 @@ text(pm$t_cont.car[cia_sites.ind.car], par("usr")[4], cia_sites.ind.car,
 
 text(pm$t_cont.an[cia_sites.ind.an], par("usr")[4], cia_sites.ind.an, 
      xpd = NA, pos = 3, offset = 1.25, col = col.a)
-
 ```
 
 * In this case, the posterior MATs tend to be a little higher than you'd expect just based on the proxy data (top/right), with the opposite true for one  Anisian site (bottom/left).
@@ -102,7 +94,6 @@ text(pm$t_cont.an[cia_sites.ind.an], par("usr")[4], cia_sites.ind.an,
 Now paleosol weathering index, only available at two Carnian sites. I've added the calibration curve using the median curve fit parameters in the posterior for reference.
 
 ```{r PWI, echo=FALSE}
-
 plot(PWI ~ MAT, data = pwi_cal, 
      xlim = range(c(as.data.frame(pwi_cal)$MAT, pm$t_cont.car[pwi_sites.ind.car])),
      ylim = range(c(as.data.frame(pwi_cal)$PWI, pwi_samples.car$PWI)))
@@ -115,7 +106,6 @@ points(pm$t_cont.car[pwi_sites.ind.car], pwi_samples.car$PWI,
 
 text(pm$t_cont.car[pwi_sites.ind.car], par("usr")[4], pwi_sites.ind.car, 
      xpd = NA, pos = 3, col = col.c)
-
 ```
 
 Here the reconstructions fit the calibration data well. Obviously the interpretation is based on an extrapolation at site 3, but if one takes the proxy at face value it's pretty tough for this site to have a MAT higher than, say, 5 or 10 $^\circ$. Note that this is the same site which has a cool bias in the first plot (based on Al/Si).
@@ -125,7 +115,6 @@ Here the reconstructions fit the calibration data well. Obviously the interpreta
 Here I'm using the calibration function from Julia Kelson's paper, which is represented as a line. Only one Anisian site.
 
 ```{r clumped, echo=FALSE}
-
 plot(10:35, 6.36e4 / (10:35 + 273) ^ 2 + -4.7e-3, type = "l", 
      xlab = "MAT", ylab = expression(Delta*47),
      ylim = range(c(6.36e4 / (10:35 + 273) ^ 2 + -4.7e-3, 
@@ -139,7 +128,6 @@ points(pm$t_seas.an[clump_sites.ind.an], clump_samples.an$cap_47,
 
 text(pm$t_cont.an[clump_sites.ind.an], par("usr")[4], clump_sites.ind.an, 
      xpd = NA, pos = 3, col = col.a)
-
 ```
 
 * The JPI posterior is pretty much spot on after accounting for seasonality. The closed symbols are MAT, the open ones are summer temperature.
@@ -155,7 +143,6 @@ I'm using carbonate $\delta^{18}O$ data from 2 Carnian and 4 Anisian sites. The 
 The data are plotted as above, with the posterior median MAT on the x axis and the measured proxy value on the y axis. 
 
 ```{r oxygen, echo=FALSE}
-
 mat = 0:40
 c_cont = -mat + 1.4836 - 0.2738 * 45
 t_seas = (-0.9189 + sqrt(0.9189 ^ 2 - 4 * -0.0015 * c_cont)) /
@@ -190,7 +177,6 @@ text(pm$t_cont.car[pc_sites.ind.car], par("usr")[4], pc_sites.ind.car,
 
 text(pm$t_cont.an[pc_sites.ind.an], par("usr")[4], pc_sites.ind.an, 
      xpd = NA, pos = 3, offset = 1.25, col = col.a)
-
 ```
 
 The big take-home here is that terrestrial carbonate $\delta^{18}O$ values are low relative to the prior, especially at the warmer sites. Most of the values would be consistent with MATs below freezing. Accounting for seasonality reduces this effect, because mineral precipitation at warmer summer temperatures produces calcite with lower $\delta^{18}O$. Even then, however, some of the data (especially for the Anisian, e.g., sites 2 and 6) would imply pretty low MAT (near or just below zero).
