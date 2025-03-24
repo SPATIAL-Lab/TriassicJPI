@@ -103,13 +103,12 @@ This has a pretty big impact on the marine temperatures and thus the low-latitud
 
 ```{r setpar}
 #| include: false
-dev.off()
 par(mar = c(5, 5, 1, 1))
 ```
 
 ```{r calcite}
 #| echo: false
-MAT = 15:40
+MAT = 10:40
 plot(MAT, (0 + (2.78e6 / (MAT + 273) ^ 2 + -2.98)) * 0.97002 - 29.98, 
      ylim = range(c(mc_samples.car$d18O, mc_samples.car$d18O)), type = "l", xlab = "MAT", 
      ylab = expression(delta^{18}*"O marine calcite"))
