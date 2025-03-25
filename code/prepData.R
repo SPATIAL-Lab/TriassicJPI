@@ -10,6 +10,7 @@ dfile = "data/dataAnisian.xlsx"
 pc_samples.an = read.xlsx(dfile, sheet = "Cont_d18O")
 cia_samples.an = read.xlsx(dfile, sheet = "Cont_CIA")
 alsi_samples.an = read.xlsx(dfile, sheet = "Cont_AlSi")
+pwi_samples.an = read.xlsx(dfile, sheet = "Cont_PWI")
 cont_sites.an = read.xlsx(dfile, sheet = "Cont_Sites")
 clump_samples.an = read.xlsx(dfile, sheet = "Cont_Clump")
 mSamples.an = read.xlsx(dfile, sheet = "Mar_d18O")
@@ -26,6 +27,7 @@ clump_sites.ind.an = match(clump_samples.an$Site, cont_sites.an$Site)
 pc_sites.ind.an = match(pc_samples.an$Site, cont_sites.an$Site)
 cia_sites.ind.an = match(cia_samples.an$Site, cont_sites.an$Site)
 alsi_sites.ind.an = match(alsi_samples.an$Site, cont_sites.an$Site)
+pwi_sites.ind.an = match(pwi_samples.an$Site, cont_sites.an$Site)
 
 # Clump data as matrix: Cap47, d18O
 clump_data.an = as.matrix(clump_samples.an[,c("cap_47", "d18O")])

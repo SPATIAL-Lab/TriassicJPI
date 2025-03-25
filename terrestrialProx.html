@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gabriel Bowen">
-<meta name="dcterms.date" content="2025-03-21">
+<meta name="dcterms.date" content="2025-03-25">
 
 <title>Terrestrial Proxies</title>
 <style>
@@ -93,7 +93,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 21, 2025</p>
+      <p class="date">March 25, 2025</p>
     </div>
   </div>
   
@@ -130,7 +130,8 @@ window.Quarto = {
 3        Utah    5.00   15.00   10.000
 4   Australia   58.92   69.91   64.340
 5       India   39.49   50.16   44.700
-6 Santa_Clara   39.01   49.64   44.325</code></pre>
+6 Santa_Clara   39.01   49.64   44.325
+7  Antarctica   72.82   78.62   75.690</code></pre>
 </div>
 </div>
 <section id="alsi" class="level2">
@@ -148,13 +149,13 @@ window.Quarto = {
 <p>My observations:</p>
 <ul>
 <li>The data are very noisy.</li>
-<li>The posterior MATs skew a little bit cooler than you would get if you used these data alone, but are not too dissimilar on average.</li>
+<li>The posterior Carnian MATs skew a little bit cooler than you would get if you used these data alone, but are not too dissimilar on average.</li>
 <li>Carnian site 3 (Chanares) stands out as having reconstructed MAT substantially lower than the Al/Si would imply, alone.</li>
 </ul>
 </section>
 <section id="cia" class="level2">
 <h2 class="anchored" data-anchor-id="cia">CIA</h2>
-<p>Same thing for CIA, which is available at 4 Carnian and 2 Anisian sites.</p>
+<p>Same thing for CIA, which is available at 4 Carnian and 3 Anisian sites.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -165,13 +166,14 @@ window.Quarto = {
 </div>
 </div>
 <ul>
-<li>In this case, the posterior MATs tend to be a little higher than you’d expect just based on the proxy data (top/right), with the opposite true for one Anisian site (bottom/left).</li>
+<li>In this case, the posterior MATs for some sites tend to be a little higher than you’d expect just based on the proxy data (top/right).</li>
+<li>The MATs for the new Antarctic site plot just slightly cold compared with what you’d expect based on the CIA values.</li>
 <li>It’s a really weak proxy (huge scatter in the calibration data) so not surprising that here, too, there’s not a a very strong influence on the MATs.</li>
 </ul>
 </section>
 <section id="pwi" class="level2">
 <h2 class="anchored" data-anchor-id="pwi">PWI</h2>
-<p>Now paleosol weathering index, only available at two Carnian sites. I’ve added the calibration curve using the median curve fit parameters in the posterior for reference.</p>
+<p>Now paleosol weathering index, available at one Anisian and two Carnian sites. I’ve added the calibration curve using the median curve fit parameters in the posterior for reference.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -182,6 +184,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Here the reconstructions fit the calibration data well. Obviously the interpretation is based on an extrapolation at site 3, but if one takes the proxy at face value it’s pretty tough for this site to have a MAT higher than, say, 5 or 10 <span class="math inline">\(^\circ\)</span>. Note that this is the same site which has a cool bias in the first plot (based on Al/Si).</p>
+<p>The MAT for the new Antarctic site is slightly higher than expected based just on PWI (compare w/ the CIA result).</p>
 </section>
 <section id="clumped" class="level2">
 <h2 class="anchored" data-anchor-id="clumped">Clumped</h2>
@@ -196,8 +199,8 @@ window.Quarto = {
 </div>
 </div>
 <ul>
-<li>The JPI posterior is pretty much spot on after accounting for seasonality. The closed symbols are MAT, the open ones are summer temperature.</li>
-<li>Note that this same site has a bunch of CIA data shown above, and the posterior MAT is at the warm side of the range that you’d predict based on the CIA data alone. Incorporating the assumption that the clumped data represent warm-season temperatures allows lower MAT at this site, making the CIA results more congruent.</li>
+<li>The JPI posterior is a little warm at this site for what you’d expect accounting for seasonality. The closed symbols are MAT, the open ones are summer temperature.</li>
+<li>Note that this same site has a bunch of CIA data shown above, and the posterior MAT is also a bit warmer than expected given those data. This is a sub-tropical site, and the fairly warm SSTs are pulling the MAT values at this and other sub-tropical Anisian sites toward higher values.</li>
 </ul>
 </section>
 <section id="oxygen-isotopes" class="level2">
@@ -217,12 +220,12 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>The big take-home here is that terrestrial carbonate <span class="math inline">\(\delta^{18}O\)</span> values are low relative to the prior, especially at the warmer sites. Most of the values would be consistent with MATs below freezing. Accounting for seasonality reduces this effect, because mineral precipitation at warmer summer temperatures produces calcite with lower <span class="math inline">\(\delta^{18}O\)</span>. Even then, however, some of the data (especially for the Anisian, e.g., sites 2 and 6) would imply pretty low MAT (near or just below zero).</p>
+<p>The big take-home here is that terrestrial carbonate <span class="math inline">\(\delta^{18}O\)</span> values are low relative to the prior, especially at the warmer sites. Most of the values would be consistent with MATs below freezing. Accounting for seasonality reduces this effect, because mineral precipitation at warmer summer temperatures produces calcite with lower <span class="math inline">\(\delta^{18}O\)</span>. Even then, however, some of the data (especially for Anisian sub-tropical sites, e.g., sites 2 and 6) would imply pretty low MAT (near or just below zero).</p>
 <p>The model accommodates this by changing the relationship between MAT and precipitation <span class="math inline">\(\delta^{18}O\)</span> values for the Anisian…precipitation <span class="math inline">\(\delta^{18}O\)</span> at any given MAT is 1-2 per mil lower in the Anisian than the modern or the Carnian (where the data are more consistent w/ the modern precipitation isotope gradient, after accounting for temperature seasonality)</p>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>Univariate interpretations of the terrestrial proxy data at all sites <em>except</em> Utah suggest MATs no higher than 20<span class="math inline">\(^\circ\)</span>. Incorporation of some (probably valid) assumptions like warm-season precipitation of terrestrial carbonates has increased the univariate MAT estimates somewhat compared with our original analyses. The estimates from the full JPI, however, were already being influenced by the marine proxy data and the prior constraints on the meridional MAT gradient. As a result, in the initial analysis they were, if anything, warmer than one would have interpreted using the individual proxies in isolation. The reconstruction has become more consistent overall through the changes that have been made, but the high-latitude JPI temperatures have not changed too much and seem to be a good reflection of what the proxies are telling us.</p>
+<p>Univariate interpretations of the terrestrial proxy data at all sites <em>except</em> Utah suggest MATs no higher than 20<span class="math inline">\(^\circ\)</span>. Adding variable <span class="math inline">\(\delta^{18}O\)</span> of seawater and the data from the Antarctic site has pulled the Anisian continental temperatures at all latitudes up, so that in most cases they are at the higher end of the ranges suggested by the terrestrial proxy data. Temperatures for the Carnian tend to remain a compromises, with Al/Si values pulling these temperatures warmer and CIA values suggesting lower MATs than reflected in the JPI posterior.</p>
 </section>
 
 </main>

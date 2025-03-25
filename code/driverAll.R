@@ -6,9 +6,10 @@ d = list(lats_mar.an = lats_mar.an, lats_cont.an = lats_cont.an,
          mp_sites.ind.an = mp_sites.ind.an, mc_sites.ind.an = mc_sites.ind.an,
          clump_sites.ind.an = clump_sites.ind.an, pc_sites.ind.an = pc_sites.ind.an,
          cia_sites.ind.an = cia_sites.ind.an, alsi_sites.ind.an = alsi_sites.ind.an,
-         mp_data.an = mp_samples.an$d18O, mc_data.an = mc_samples.an$d18O,
-         clump_data.an = clump_data.an, pc_data.an = pc_samples.an$d18O,
-         cia_data.an = cia_samples.an$CIA, alsi_data.an = alsi_samples.an$AlSi,
+         pwi_sites.ind.an = pwi_sites.ind.an, mp_data.an = mp_samples.an$d18O, 
+         mc_data.an = mc_samples.an$d18O, clump_data.an = clump_data.an, 
+         pc_data.an = pc_samples.an$d18O, cia_data.an = cia_samples.an$CIA, 
+         alsi_data.an = alsi_samples.an$AlSi, pwi_data.an = pwi_samples.an$PWI,
          lats_mar.car = lats_mar.car, lats_cont.car = lats_cont.car,
          mp_sites.ind.car = mp_sites.ind.car, md_sites.ind.car = md_sites.ind.car, 
          mc_sites.ind.car = mc_sites.ind.car,
@@ -28,14 +29,14 @@ parms = c("a.an", "b.an", "c.an", "d.an", "e.an", "t_seas.an", "dO_cont_off.an",
 
 # Some parameters for the sampler
 post = jags.parallel(model.file = "code/modelAll.R", parameters.to.save = parms, data = d,
-                 inits = NULL, n.chains = 3, n.iter = 1e5, n.burnin = 1e4,
-                 n.thin = 10)
+                 inits = NULL, n.chains = 3, n.iter = 2e5, n.burnin = 2e4,
+                 n.thin = 20)
+save(post, file = "bigout/post.rda")
 
 # Diagnostics
 plot(post)
 traceplot(post$BUGSoutput)
 View(post$BUGSoutput$summary)
-save(post, file = "bigout/post.rda")
 
 # Summary
 s = post$BUGSoutput$summary

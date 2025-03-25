@@ -6,6 +6,11 @@ model{
     pwi_cal_m[i] = exp((pwi_cal[i, 2] + pwi_a) / pwi_b)
   }
   
+  for(i in 1:length(pwi_data.an)){
+    pwi_data.an[i] ~ dnorm(pwi_data_m.an[i], 1 / pwi_var)
+    pwi_data_m.an[i] = exp((t_cont.an[pwi_sites.ind.an[i]] + pwi_a) / pwi_b)
+  }
+  
   for(i in 1:length(pwi_data.car)){
     pwi_data.car[i] ~ dnorm(pwi_data_m.car[i], 1 / pwi_var)
     pwi_data_m.car[i] = exp((t_cont.car[pwi_sites.ind.car[i]] + pwi_a) / pwi_b)
@@ -196,7 +201,7 @@ model{
     lat_mar.car[i] ~ dunif(lats_mar.car[i, 1], lats_mar.car[i, 2])
   }
   
-  dO_mar.mu ~ dnorm(-0.75, 30)
+  dO_mar.mu ~ dnorm(-0.75, 80)
   dO_mar.pre = 10
   
   t_mar.pre = 1
@@ -209,9 +214,9 @@ model{
   a.car ~ dnorm(a.mu, a.pre)
   
   c.mu = -0.008
-  c.pre = 1e5
+  c.pre = 5e4 # 1e5
   b.mu = 0.22
-  b.pre = 1000
+  b.pre = 750 # 1000
   a.mu = 23
   a.pre = 0.25
   

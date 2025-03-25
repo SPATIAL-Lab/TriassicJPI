@@ -1,7 +1,7 @@
 ---
 title: "Marine Proxies"
 author: "Gabriel Bowen"
-date: "2025-03-21"
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
 editor: source
 ---
 
@@ -24,12 +24,12 @@ Let's look at the marine proxy data. These results are from a new run which prod
 ```{r gradient}
 #| echo: FALSE
 #| fig.height: 10
-l = 0:70
+l = 0:75
 layout(matrix(c(1, 2), ncol = 1))
 par(mar = c(5, 5, 1, 1))
 
 plot(l, 23 + l * 0.22 + l^2 * -0.008, type = "l", lwd = 2, ylim = c(0,43),
-     xlim = c(2, 70), xlab = "Latitude", ylab = "Mean temperature")
+     xlim = c(2, 75), xlab = "Latitude", ylab = "Mean temperature")
 for(i in seq(1, nrow(sl$a.car), length.out = 1000)){
   lines(l, sl$a.car[i] + l * 
           sl$b.car[i] + 
@@ -60,7 +60,7 @@ points(post$BUGSoutput$mean$lat_cont.car, post$BUGSoutput$mean$t_cont.car,
        pch = 21, bg = "dark grey", col = col.c)
 
 plot(l, 23 + l * 0.22 + l^2 * -0.008, type = "l", lwd = 2, ylim = c(0,43),
-     xlim = c(2, 70), xlab = "Latitude", ylab = "Mean temperature")
+     xlim = c(2, 75), xlab = "Latitude", ylab = "Mean temperature")
 
 for(i in seq(1, nrow(sl$a.an), length.out = 1000)){
   lines(l, sl$a.an[i] + l * 
@@ -103,12 +103,13 @@ This has a pretty big impact on the marine temperatures and thus the low-latitud
 
 ```{r setpar}
 #| include: false
+dev.off()
 par(mar = c(5, 5, 1, 1))
 ```
 
 ```{r calcite}
 #| echo: false
-MAT = 10:40
+MAT = 15:40
 plot(MAT, (0 + (2.78e6 / (MAT + 273) ^ 2 + -2.98)) * 0.97002 - 29.98, 
      ylim = range(c(mc_samples.car$d18O, mc_samples.car$d18O)), type = "l", xlab = "MAT", 
      ylab = expression(delta^{18}*"O marine calcite"))

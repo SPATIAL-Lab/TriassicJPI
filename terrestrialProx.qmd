@@ -1,7 +1,7 @@
 ---
 title: "Terrestrial Proxies"
 author: "Gabriel Bowen"
-date: "2025-03-21"
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
 editor: source
 ---
 
@@ -59,12 +59,12 @@ text(pm$t_cont.an[alsi_sites.ind.an], par("usr")[4], alsi_sites.ind.an,
 My observations:
 
 * The data are very noisy.
-* The posterior MATs skew a little bit cooler than you would get if you used these data alone, but are not too dissimilar on average.
+* The posterior Carnian MATs skew a little bit cooler than you would get if you used these data alone, but are not too dissimilar on average.
 * Carnian site 3 (Chanares) stands out as having reconstructed MAT substantially lower than the Al/Si would imply, alone.
 
 ## CIA
 
-Same thing for CIA, which is available at 4 Carnian and 2 Anisian sites.
+Same thing for CIA, which is available at 4 Carnian and 3 Anisian sites.
 
 ```{r CIA, echo=FALSE}
 plot(CIA ~ Temp, data = cia_cal, xlab = "MAT",
@@ -75,49 +75,56 @@ plot(CIA ~ Temp, data = cia_cal, xlab = "MAT",
 
 points(pm$t_cont.car[cia_sites.ind.car], cia_samples.car$CIA,
        col = col.c, pch = 20)
-
 points(pm$t_cont.an[cia_sites.ind.an], cia_samples.an$CIA,
        col = col.a, pch = 20)
 
 text(pm$t_cont.car[cia_sites.ind.car], par("usr")[4], cia_sites.ind.car, 
      xpd = NA, pos = 3, col = col.c)
-
 text(pm$t_cont.an[cia_sites.ind.an], par("usr")[4], cia_sites.ind.an, 
      xpd = NA, pos = 3, offset = 1.25, col = col.a)
 ```
 
-* In this case, the posterior MATs tend to be a little higher than you'd expect just based on the proxy data (top/right), with the opposite true for one  Anisian site (bottom/left).
+* In this case, the posterior MATs for some sites tend to be a little higher than you'd expect just based on the proxy data (top/right).
+* The MATs for the new Antarctic site plot just slightly cold compared with what you'd expect based on the CIA values.
 * It's a really weak proxy (huge scatter in the calibration data) so not surprising that here, too, there's not a a very strong influence on the MATs.
 
 ## PWI
 
-Now paleosol weathering index, only available at two Carnian sites. I've added the calibration curve using the median curve fit parameters in the posterior for reference.
+Now paleosol weathering index, available at one Anisian and two Carnian sites. I've added the calibration curve using the median curve fit parameters in the posterior for reference.
 
 ```{r PWI, echo=FALSE}
 plot(PWI ~ MAT, data = pwi_cal, 
-     xlim = range(c(as.data.frame(pwi_cal)$MAT, pm$t_cont.car[pwi_sites.ind.car])),
-     ylim = range(c(as.data.frame(pwi_cal)$PWI, pwi_samples.car$PWI)))
+     xlim = range(c(as.data.frame(pwi_cal)$MAT, pm$t_cont.car[pwi_sites.ind.car],
+                    pm$t_cont.an[pwi_sites.ind.an])),
+     ylim = range(c(as.data.frame(pwi_cal)$PWI, pwi_samples.car$PWI, 
+                    pwi_samples.an$PWI)))
 xs = seq(par("usr")[1], par("usr")[2], length = 100)
 ys = exp((xs + c(pm$pwi_a)) / c(pm$pwi_b))
 lines(xs, ys)
 
 points(pm$t_cont.car[pwi_sites.ind.car], pwi_samples.car$PWI,
        col = col.c, pch = 20)
+points(pm$t_cont.an[pwi_sites.ind.an], pwi_samples.an$PWI,
+       col = col.a, pch = 20)
 
 text(pm$t_cont.car[pwi_sites.ind.car], par("usr")[4], pwi_sites.ind.car, 
      xpd = NA, pos = 3, col = col.c)
+text(pm$t_cont.an[pwi_sites.ind.an], par("usr")[4], pwi_sites.ind.an, 
+     xpd = NA, pos = 3, offset = 1.25, col = col.a)
 ```
 
 Here the reconstructions fit the calibration data well. Obviously the interpretation is based on an extrapolation at site 3, but if one takes the proxy at face value it's pretty tough for this site to have a MAT higher than, say, 5 or 10 $^\circ$. Note that this is the same site which has a cool bias in the first plot (based on Al/Si).
+
+The MAT for the new Antarctic site is slightly higher than expected based just on PWI (compare w/ the CIA result).
 
 ## Clumped
 
 Here I'm using the calibration function from Julia Kelson's paper, which is represented as a line. Only one Anisian site.
 
 ```{r clumped, echo=FALSE}
-plot(10:35, 6.36e4 / (10:35 + 273) ^ 2 + -4.7e-3, type = "l", 
+plot(20:45, 6.36e4 / (20:45 + 273) ^ 2 + -4.7e-3, type = "l", 
      xlab = "MAT", ylab = expression(Delta*47),
-     ylim = range(c(6.36e4 / (10:35 + 273) ^ 2 + -4.7e-3, 
+     ylim = range(c(6.36e4 / (20:45 + 273) ^ 2 + -4.7e-3, 
                     clump_samples.an$cap_47)))
 
 points(pm$t_cont.an[clump_sites.ind.an], clump_samples.an$cap_47,
@@ -130,8 +137,8 @@ text(pm$t_cont.an[clump_sites.ind.an], par("usr")[4], clump_sites.ind.an,
      xpd = NA, pos = 3, col = col.a)
 ```
 
-* The JPI posterior is pretty much spot on after accounting for seasonality. The closed symbols are MAT, the open ones are summer temperature.
-* Note that this same site has a bunch of CIA data shown above, and the posterior MAT is at the warm side of the range that you'd predict based on the CIA data alone. Incorporating the assumption that the clumped data represent warm-season temperatures allows lower MAT at this site, making the CIA results more congruent.
+* The JPI posterior is a little warm at this site for what you'd expect accounting for seasonality. The closed symbols are MAT, the open ones are summer temperature.
+* Note that this same site has a bunch of CIA data shown above, and the posterior MAT is also a bit warmer than expected given those data. This is a sub-tropical site, and the fairly warm SSTs are pulling the MAT values at this and other sub-tropical Anisian sites toward higher values.
 
 ## Oxygen isotopes
 
@@ -179,10 +186,10 @@ text(pm$t_cont.an[pc_sites.ind.an], par("usr")[4], pc_sites.ind.an,
      xpd = NA, pos = 3, offset = 1.25, col = col.a)
 ```
 
-The big take-home here is that terrestrial carbonate $\delta^{18}O$ values are low relative to the prior, especially at the warmer sites. Most of the values would be consistent with MATs below freezing. Accounting for seasonality reduces this effect, because mineral precipitation at warmer summer temperatures produces calcite with lower $\delta^{18}O$. Even then, however, some of the data (especially for the Anisian, e.g., sites 2 and 6) would imply pretty low MAT (near or just below zero).
+The big take-home here is that terrestrial carbonate $\delta^{18}O$ values are low relative to the prior, especially at the warmer sites. Most of the values would be consistent with MATs below freezing. Accounting for seasonality reduces this effect, because mineral precipitation at warmer summer temperatures produces calcite with lower $\delta^{18}O$. Even then, however, some of the data (especially for Anisian sub-tropical sites, e.g., sites 2 and 6) would imply pretty low MAT (near or just below zero).
 
 The model accommodates this by changing the relationship between MAT and precipitation $\delta^{18}O$ values for the Anisian...precipitation $\delta^{18}O$ at any given MAT is 1-2 per mil lower in the Anisian than the modern or the Carnian (where the data are more consistent w/ the modern precipitation isotope gradient, after accounting for temperature seasonality) 
 
 ## Summary
 
-Univariate interpretations of the terrestrial proxy data at all sites *except* Utah suggest MATs no higher than 20$^\circ$. Incorporation of some (probably valid) assumptions like warm-season precipitation of terrestrial carbonates has increased the univariate MAT estimates somewhat compared with our original analyses. The estimates from the full JPI, however, were already being influenced by the marine proxy data and the prior constraints on the meridional MAT gradient. As a result, in the initial analysis they were, if anything, warmer than one would have interpreted using the individual proxies in isolation. The reconstruction has become more consistent overall through the changes that have been made, but the high-latitude JPI temperatures have not changed too much and seem to be a good reflection of what the proxies are telling us.
+Univariate interpretations of the terrestrial proxy data at all sites *except* Utah suggest MATs no higher than 20$^\circ$. Adding variable $\delta^{18}O$ of seawater and the data from the Antarctic site has pulled the Anisian continental temperatures at all latitudes up, so that in most cases they are at the higher end of the ranges suggested by the terrestrial proxy data. Temperatures for the Carnian tend to remain a compromises, with Al/Si values pulling these temperatures warmer and CIA values suggesting lower MATs than reflected in the JPI posterior.
