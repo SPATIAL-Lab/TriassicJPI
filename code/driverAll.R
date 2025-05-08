@@ -27,10 +27,10 @@ parms = c("a.an", "b.an", "c.an", "d.an", "e.an", "t_seas.an", "dO_cont_off.an",
           "alsi_var", "alsi_slope", "alsi_int", "cia_var", "cia_slope", "cia_int",
           "pwi_var", "pwi_a", "pwi_b")
 
-# Some parameters for the sampler
-post = jags.parallel(model.file = "code/modelAll.R", parameters.to.save = parms, data = d,
-                 inits = NULL, n.chains = 3, n.iter = 2e5, n.burnin = 2e4,
-                 n.thin = 20)
+# Run the inversion
+post = jags.parallel(model.file = "code/modelAll.R", parameters.to.save = parms, 
+                     data = d, inits = NULL, n.chains = 3, n.iter = 3e5, 
+                     n.burnin = 1e5, n.thin = 20)
 save(post, file = "bigout/post.rda")
 
 # Diagnostics

@@ -19,7 +19,7 @@ col.a = rgb(0.2, 0.6, 1)
 knitr::opts_knit$set(global.par = TRUE)
 ```
 
-Let's look at the marine proxy data. These results are from a new run which produces lower gradients and also lower tropical MAT values. Here is the gradient plot.
+Let's look at the marine proxy data. The latest run includes ocean average $\delta^{18}O$ value as a free parameter and the high-latitude continental data for both stages.
 
 ```{r gradient}
 #| echo: FALSE

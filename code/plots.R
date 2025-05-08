@@ -96,6 +96,23 @@ lines(density(sl$c.an), col = rgb(0.2, 0.6, 1), lwd = 2)
 lines(density(sl$c.car), col = rgb(1, 0.2, 0.6), lwd = 2)
 dev.off()
 
+#d18O-t parameters
+png("out/d18O_parms.png", width = 6, height = 4, units = "in", res = 600)
+layout(matrix(c(1,2), ncol = 2))
+
+plot(density(rnorm(100000, -14, 2)), main = "d", xlim = c(-25, -8), 
+     ylim = c(0, 0.5), xlab = "", lwd = 2)
+lines(density(sl$d.an), col = rgb(0.2,0.6,1), lwd = 2)
+lines(density(sl$d.car), col = rgb(1,0.2,0.6), lwd = 2)
+
+plot(density(rnorm(100000, 0.59, sqrt(1/250))), main = "e", xlim = c(0.2, 0.8),
+     ylim = c(0, 10), xlab = "", lwd = 2)
+lines(density(sl$e.an[,1]), col = rgb(0.2,0.6,1), lwd = 2)
+lines(density(sl$e.car[,1]), col = rgb(1,0.2,0.6), lwd = 2)
+dev.off()
+
+#################################
+
 #Argentina offsets
 png("out/A_off_parms.png", width = 6, height = 4, units = "in", res = 600)
 layout(matrix(c(1,2), ncol = 2))
@@ -115,21 +132,6 @@ lines(density(sl$dO_cont_off[,2]), col = "red")
 lines(density(sl$dO_cont_off[,3]), col = "red", lty = 2)
 lines(density(sl$dO_cont_off[,4]), col = "red", lty = 3)
 lines(density(sl$dO_cont_off[,5]), col = "red", lty = 4)
-dev.off()
-
-#d18O-t parameters
-png("out/d18O_parms.png", width = 6, height = 4, units = "in", res = 600)
-layout(matrix(c(1,2), ncol = 2))
-
-plot(density(rnorm(100000, -14, 2)), main = "d", xlim = c(-25, -8), 
-     ylim = c(0, 0.5), xlab = "", lwd = 2)
-lines(density(sl$d.an), col = rgb(0.2,0.6,1), lwd = 2)
-lines(density(sl$d.car), col = rgb(1,0.2,0.6), lwd = 2)
-
-plot(density(rnorm(100000, 0.59, sqrt(1/250))), main = "e", xlim = c(0.2, 0.8),
-     ylim = c(0, 10), xlab = "", lwd = 2)
-lines(density(sl$e.an[,1]), col = rgb(0.2,0.6,1), lwd = 2)
-lines(density(sl$e.car[,1]), col = rgb(1,0.2,0.6), lwd = 2)
 dev.off()
 
 ## Temperature Gradient all

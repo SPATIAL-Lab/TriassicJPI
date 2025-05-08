@@ -201,7 +201,7 @@ model{
     lat_mar.car[i] ~ dunif(lats_mar.car[i, 1], lats_mar.car[i, 2])
   }
   
-  dO_mar.mu ~ dnorm(-0.75, 80)
+  dO_mar.mu ~ dnorm(-0.5, 80)
   dO_mar.pre = 10
   
   t_mar.pre = 1
