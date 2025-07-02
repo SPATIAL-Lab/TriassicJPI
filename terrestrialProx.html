@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gabriel Bowen">
-<meta name="dcterms.date" content="2025-05-08">
+<meta name="dcterms.date" content="2025-07-02">
 
 <title>Terrestrial Proxies</title>
 <style>
@@ -31,10 +31,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="terrestrialProx_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="terrestrialProx_files/libs/quarto-html/anchor.min.js"></script>
 <link href="terrestrialProx_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="terrestrialProx_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="terrestrialProx_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="terrestrialProx_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="terrestrialProx_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="terrestrialProx_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="terrestrialProx_files/libs/bootstrap/bootstrap-1bc8a17f135ab3d594c857e9f48e611b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -93,7 +93,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 8, 2025</p>
+      <p class="date">July 2, 2025</p>
     </div>
   </div>
   
@@ -111,33 +111,35 @@ window.Quarto = {
 <pre><code>[1] "Carnian = pink"</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>              Site lat_mean lat_min lat_max
-1      Los_Rastros    45.64   42.70   48.58
-2 Badong-Jiuligang    20.00   10.00   30.00
-3         Chanares    45.64   42.70   48.58
-4    Ischigualasto    47.44   45.00   50.00
-5           Poland    25.02   22.09   28.20
-6     Dp_Morsleben    25.26   23.01   27.51
-7  Central_Germany    23.96   21.70   26.21
-8         Tasmania    70.61   68.38   72.88</code></pre>
+<pre><code>               Site lat_mean   lat_min  lat_max
+1       Los_Rastros 43.19176 41.000775 45.50344
+2  Badong-Jiuligang 23.38095 21.197360 25.70490
+3          Chanares 43.48715 41.295825 45.79841
+4     Ischigualasto 43.40489 41.213670 45.71629
+5            Poland 26.63423 24.451705 28.95877
+6      Dp_Morsleben 25.18959 23.006570 27.51387
+7  Neubrandenburg_2 27.01635 24.834160 29.34108
+8        Am_Hohnert 23.88488 21.700895 26.20846
+9          Tasmania 70.57833 68.351085 72.84946
+10  WHAtlas_Morocco  9.58142  7.366845 11.87562</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Anisian = blue"</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         Site lat_min lat_max lat_mean
-1     Puntudo   37.81   48.43   43.120
-2  Las_Cabras   39.76   50.41   45.085
-3        Utah    5.00   15.00   10.000
-4   Australia   58.92   69.91   64.340
-5       India   39.49   50.16   44.700
-6 Santa_Clara   39.01   49.64   44.325
-7  Antarctica   72.82   78.62   75.690</code></pre>
+<pre><code>         Site  lat_min  lat_max lat_mean
+1     Puntudo 40.11527 45.62814 42.78801
+2  Las_Cabras 41.92848 47.44075 44.60393
+3        Utah 11.08202 16.60424 13.76430
+4   Australia 64.11139 69.61877 66.82359
+5       India 41.66384 47.17643 44.33814
+6 Santa_Clara 41.16573 46.67825 43.84002
+7  Antarctica 73.82809 79.33444 76.55695</code></pre>
 </div>
 </div>
 <section id="alsi" class="level2">
 <h2 class="anchored" data-anchor-id="alsi">Al/Si</h2>
-<p>Al/Si is available from 4 Carnian sites and 1 Anisian site. Here I’m plotting the calibration data set for the proxy (black) and the paleo-proxy values vs.&nbsp;the posterior median site MAT (pink = Carnian, blue = Anisian).</p>
+<p>Below I’m plotting the calibration data set for the proxy (black) and the paleo-proxy values vs.&nbsp;the posterior median site MAT (pink = Carnian, blue = Anisian).</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -147,16 +149,15 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>My observations:</p>
 <ul>
 <li>The data are very noisy.</li>
-<li>The posterior Carnian MATs skew a little bit cooler than you would get if you used these data alone, but are not too dissimilar on average.</li>
-<li>Carnian site 3 (Chanares) stands out as having reconstructed MAT substantially lower than the Al/Si would imply, alone.</li>
+<li>Al/Si values for all the Carnian sites are similar. Because of the influence of other proxies some have posterior MATs that fall below and others above the values you would estimate from Al/Si alone.</li>
+<li>The one Anisian site has a MAT estimate ~3 <span class="math inline">\(^\circ\)</span>C hotter than what would be estimated from MAT alone.</li>
 </ul>
 </section>
 <section id="cia" class="level2">
 <h2 class="anchored" data-anchor-id="cia">CIA</h2>
-<p>Same thing for CIA, which is available at 4 Carnian and 3 Anisian sites.</p>
+<p>Same thing for CIA.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -167,9 +168,8 @@ window.Quarto = {
 </div>
 </div>
 <ul>
-<li>In this case, the posterior MATs for some sites tend to be a little higher than you’d expect just based on the proxy data (top/right).</li>
-<li>The MATs for the new Antarctic site plot just slightly cold compared with what you’d expect based on the CIA values.</li>
-<li>It’s a really weak proxy (huge scatter in the calibration data) so not surprising that here, too, there’s not a a very strong influence on the MATs.</li>
+<li>Posterior MATs are pretty consistent with the proxy values, within the range of proxy uncertainty.</li>
+<li>On average, posterior MATs are slightly higher at all Carnian sites than would be predicted from CIA values alone…this proxy is pulling temperatures down.</li>
 </ul>
 </section>
 <section id="pwi" class="level2">
@@ -184,8 +184,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Here the reconstructions fit the calibration data well. Obviously the interpretation is based on an extrapolation at site 3, but if one takes the proxy at face value it’s pretty tough for this site to have a MAT higher than, say, 5 or 10 <span class="math inline">\(^\circ\)</span>. Note that this is the same site which has a cool bias in the first plot (based on Al/Si).</p>
-<p>The MAT for the new Antarctic site is slightly higher than expected based just on PWI (compare w/ the CIA result).</p>
+<p>Here the reconstructions fit the calibration data well. Obviously the interpretation is based on an extrapolation at Carnian site 3, but if one takes the proxy at face value it’s pretty tough for this site to have a MAT higher than, say, 5 or 10 <span class="math inline">\(^\circ\)</span>. Note that this same site has a cool bias in the first plot (based on Al/Si).</p>
 </section>
 <section id="clumped" class="level2">
 <h2 class="anchored" data-anchor-id="clumped">Clumped</h2>
@@ -206,7 +205,7 @@ window.Quarto = {
 </section>
 <section id="oxygen-isotopes" class="level2">
 <h2 class="anchored" data-anchor-id="oxygen-isotopes">Oxygen isotopes</h2>
-<p>I’m using carbonate <span class="math inline">\(\delta^{18}O\)</span> data from 2 Carnian and 4 Anisian sites. The lines on the plot show predicted average continental carbonate values as a function of temperature for the model prior (black) and posteriors (colors as throughout). This is derived in two steps:</p>
+<p>I’m using carbonate <span class="math inline">\(\delta^{18}O\)</span> data from 3 Carnian and 4 Anisian sites. The lines on the plot show predicted average continental carbonate values as a function of temperature for the model prior (black) and posteriors (colors as throughout). This is derived in two steps:</p>
 <ul>
 <li>Precipitation <span class="math inline">\(\delta^{18}O\)</span> value is a function of temperature. The prior uses the classic modern empirical relationship. The slope and intercept of the relationship are model parameters which are sampled separately and optimized for each stage.</li>
 <li>Carbonate <span class="math inline">\(\delta^{18}O\)</span> value is a function of the local precipitation <span class="math inline">\(\delta^{18}O\)</span> value and temperature. Previously we had been using MAT to describe fractionation in this step, which is reflected in the solid lines below. Now we’re using summer season temperature. Because the relationship between MAT and summer temperature is a function of both MAT and latitude we can’t plot a single line representing this, but I’ve approximated the relationship by plotting the predicted carbonate <span class="math inline">\(\delta^{18}O\)</span> values using summer season temperature for a site at 45<span class="math inline">\(^\circ\)</span> latitude (dotted lines).</li>
@@ -221,12 +220,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>The big take-home here is that terrestrial carbonate <span class="math inline">\(\delta^{18}O\)</span> values are low relative to the prior, especially at the warmer sites. Most of the values would be consistent with MATs below freezing. Accounting for seasonality reduces this effect, because mineral precipitation at warmer summer temperatures produces calcite with lower <span class="math inline">\(\delta^{18}O\)</span>. Even then, however, some of the data (especially for Anisian sub-tropical sites, e.g., sites 2 and 6) would imply pretty low MAT (near or just below zero).</p>
-<p>The model accommodates this by changing the relationship between MAT and precipitation <span class="math inline">\(\delta^{18}O\)</span> values for the Anisian…precipitation <span class="math inline">\(\delta^{18}O\)</span> at any given MAT is 1-2 per mil lower in the Anisian than the modern or the Carnian (where the data are more consistent w/ the modern precipitation isotope gradient, after accounting for temperature seasonality)</p>
-</section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>Univariate interpretations of the terrestrial proxy data at all sites <em>except</em> Utah suggest MATs no higher than 20<span class="math inline">\(^\circ\)</span>. Adding variable <span class="math inline">\(\delta^{18}O\)</span> of seawater and the data from the Antarctic site has pulled the Anisian continental temperatures at all latitudes up, so that in most cases they are at the higher end of the ranges suggested by the terrestrial proxy data. Temperatures for the Carnian tend to remain a compromises, with Al/Si values pulling these temperatures warmer and CIA values suggesting lower MATs than reflected in the JPI posterior.</p>
+<p>Here again we have a mix. The Anisian sites, where there is limited non-isotope terrestrial proxy data (only site 1 has other data) tend to have relatively warm posterior MATs for their <span class="math inline">\(\delta^{18}O\)</span> values. For the Carnian sites, the new one from Morocco (site 10) stands out as the clear outlier…very high oxygen isotope values and a low MAT. This is driven by the CIA data from this site, which prefer a lower MAT. The CIA wins out because the oxygen isotope model has more degrees of freedom - site level temperature and precipitation <span class="math inline">\(\delta^{18}O\)</span> can both adjust to accomodate the higher carbonate isotope values, whereas the only freedom in the CIA proxy model is the uncertainty in the calibration relationship.</p>
 </section>
 
 </main>
@@ -313,8 +307,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -425,7 +417,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

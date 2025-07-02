@@ -34,7 +34,7 @@ cont_sites.an
 
 ## Al/Si
 
-Al/Si is available from 4 Carnian sites and 1 Anisian site. Here I'm plotting the calibration data set for the proxy (black) and the paleo-proxy values vs. the posterior median site MAT (pink = Carnian, blue = Anisian).
+Below I'm plotting the calibration data set for the proxy (black) and the paleo-proxy values vs. the posterior median site MAT (pink = Carnian, blue = Anisian).
 
 ```{r alsi, echo=FALSE}
 plot(AlSi ~ MAT, data = alsi_cal, ylab = "Al/Si",
@@ -56,15 +56,13 @@ text(pm$t_cont.an[alsi_sites.ind.an], par("usr")[4], alsi_sites.ind.an,
      xpd = NA, pos = 3, offset = 1.25, col = col.a)
 ```
 
-My observations:
-
 * The data are very noisy.
-* The posterior Carnian MATs skew a little bit cooler than you would get if you used these data alone, but are not too dissimilar on average.
-* Carnian site 3 (Chanares) stands out as having reconstructed MAT substantially lower than the Al/Si would imply, alone.
+* Al/Si values for all the Carnian sites are similar. Because of the influence of other proxies some have posterior MATs that fall below and others above the values you would estimate from Al/Si alone. 
+* The one Anisian site has a MAT estimate ~3 $^\circ$C hotter than what would be estimated from MAT alone.
 
 ## CIA
 
-Same thing for CIA, which is available at 4 Carnian and 3 Anisian sites.
+Same thing for CIA.
 
 ```{r CIA, echo=FALSE}
 plot(CIA ~ Temp, data = cia_cal, xlab = "MAT",
@@ -84,9 +82,8 @@ text(pm$t_cont.an[cia_sites.ind.an], par("usr")[4], cia_sites.ind.an,
      xpd = NA, pos = 3, offset = 1.25, col = col.a)
 ```
 
-* In this case, the posterior MATs for some sites tend to be a little higher than you'd expect just based on the proxy data (top/right).
-* The MATs for the new Antarctic site plot just slightly cold compared with what you'd expect based on the CIA values.
-* It's a really weak proxy (huge scatter in the calibration data) so not surprising that here, too, there's not a a very strong influence on the MATs.
+* Posterior MATs are pretty consistent with the proxy values, within the range of proxy uncertainty.
+* On average, posterior MATs are slightly higher at all Carnian sites than would be predicted from CIA values alone...this proxy is pulling temperatures down. 
 
 ## PWI
 
@@ -113,9 +110,7 @@ text(pm$t_cont.an[pwi_sites.ind.an], par("usr")[4], pwi_sites.ind.an,
      xpd = NA, pos = 3, offset = 1.25, col = col.a)
 ```
 
-Here the reconstructions fit the calibration data well. Obviously the interpretation is based on an extrapolation at site 3, but if one takes the proxy at face value it's pretty tough for this site to have a MAT higher than, say, 5 or 10 $^\circ$. Note that this is the same site which has a cool bias in the first plot (based on Al/Si).
-
-The MAT for the new Antarctic site is slightly higher than expected based just on PWI (compare w/ the CIA result).
+Here the reconstructions fit the calibration data well. Obviously the interpretation is based on an extrapolation at Carnian site 3, but if one takes the proxy at face value it's pretty tough for this site to have a MAT higher than, say, 5 or 10 $^\circ$. Note that this same site has a cool bias in the first plot (based on Al/Si).
 
 ## Clumped
 
@@ -142,7 +137,7 @@ text(pm$t_cont.an[clump_sites.ind.an], par("usr")[4], clump_sites.ind.an,
 
 ## Oxygen isotopes
 
-I'm using carbonate $\delta^{18}O$ data from 2 Carnian and 4 Anisian sites. The lines on the plot show predicted average continental carbonate values as a function of temperature for the model prior (black) and posteriors (colors as throughout). This is derived in two steps:
+I'm using carbonate $\delta^{18}O$ data from 3 Carnian and 4 Anisian sites. The lines on the plot show predicted average continental carbonate values as a function of temperature for the model prior (black) and posteriors (colors as throughout). This is derived in two steps:
 
 * Precipitation $\delta^{18}O$ value is a function of temperature. The prior uses the classic modern empirical relationship. The slope and intercept of the relationship are model parameters which are sampled separately and optimized for each stage.
 * Carbonate $\delta^{18}O$ value is a function of the local precipitation $\delta^{18}O$ value and temperature. Previously we had been using MAT to describe fractionation in this step, which is reflected in the solid lines below. Now we're using summer season temperature. Because the relationship between MAT and summer temperature is a function of both MAT and latitude we can't plot a single line representing this, but I've approximated the relationship by plotting the predicted carbonate $\delta^{18}O$ values using summer season temperature for a site at 45$^\circ$ latitude (dotted lines).
@@ -186,10 +181,4 @@ text(pm$t_cont.an[pc_sites.ind.an], par("usr")[4], pc_sites.ind.an,
      xpd = NA, pos = 3, offset = 1.25, col = col.a)
 ```
 
-The big take-home here is that terrestrial carbonate $\delta^{18}O$ values are low relative to the prior, especially at the warmer sites. Most of the values would be consistent with MATs below freezing. Accounting for seasonality reduces this effect, because mineral precipitation at warmer summer temperatures produces calcite with lower $\delta^{18}O$. Even then, however, some of the data (especially for Anisian sub-tropical sites, e.g., sites 2 and 6) would imply pretty low MAT (near or just below zero).
-
-The model accommodates this by changing the relationship between MAT and precipitation $\delta^{18}O$ values for the Anisian...precipitation $\delta^{18}O$ at any given MAT is 1-2 per mil lower in the Anisian than the modern or the Carnian (where the data are more consistent w/ the modern precipitation isotope gradient, after accounting for temperature seasonality) 
-
-## Summary
-
-Univariate interpretations of the terrestrial proxy data at all sites *except* Utah suggest MATs no higher than 20$^\circ$. Adding variable $\delta^{18}O$ of seawater and the data from the Antarctic site has pulled the Anisian continental temperatures at all latitudes up, so that in most cases they are at the higher end of the ranges suggested by the terrestrial proxy data. Temperatures for the Carnian tend to remain a compromises, with Al/Si values pulling these temperatures warmer and CIA values suggesting lower MATs than reflected in the JPI posterior.
+Here again we have a mix. The Anisian sites, where there is limited non-isotope terrestrial proxy data (only site 1 has other data) tend to have relatively warm posterior MATs for their $\delta^{18}O$ values. For the Carnian sites, the new one from Morocco (site 10) stands out as the clear outlier...very high oxygen isotope values and a low MAT. This is driven by the CIA data from this site, which prefer a lower MAT. The CIA wins out because the oxygen isotope model has more degrees of freedom - site level temperature and precipitation $\delta^{18}O$ can both adjust to accomodate the higher carbonate isotope values, whereas the only freedom in the CIA proxy model is the uncertainty in the calibration relationship.

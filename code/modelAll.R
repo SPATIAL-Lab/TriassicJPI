@@ -182,7 +182,7 @@ model{
   e.car ~ dnorm(e.mu, e.pre)
   
   d.mu = -14
-  d.pre = 0.25
+  d.pre = 1 # 0.25
   e.mu = 0.59
   e.pre = 250
   
