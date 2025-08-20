@@ -6,13 +6,13 @@ load("bigout/post.rda")
 sl = post$BUGSoutput$sims.list
 
 ###Without Ladinian
-l = 0:70
+l = 0:90
 pdf("out/T_grad_noLad.pdf", width = 6, height = 8)
 layout(matrix(c(1, 2), ncol = 1))
 
 par(mai = c(1, 1, 0.1, 0.1))
 plot(l, 23 + l * 0.22 + l^2 * -0.008, type = "l", lwd = 2, ylim = c(0,43),
-     xlim = c(2, 70), xlab = "Latitude", ylab = "Mean temperature")
+     xlim = c(2, 80), xlab = "Latitude", ylab = "Mean temperature")
 for(i in seq(1, nrow(sl$a.car), length.out = 1000)){
   lines(l, sl$a.car[i] + l * 
           sl$b.car[i] + 
@@ -43,7 +43,7 @@ points(post$BUGSoutput$mean$lat_cont.car, post$BUGSoutput$mean$t_cont.car,
        pch = 21, bg = "dark grey", col = rgb(1, 0.2, 0.6))
 
 plot(l, 23 + l * 0.22 + l^2 * -0.008, type = "l", lwd = 2, ylim = c(0,43),
-     xlim = c(2, 70), xlab = "Latitude", ylab = "Mean temperature")
+     xlim = c(2, 80), xlab = "Latitude", ylab = "Mean temperature")
 
 for(i in seq(1, nrow(sl$a.an), length.out = 1000)){
   lines(l, sl$a.an[i] + l * 

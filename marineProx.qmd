@@ -3,6 +3,7 @@ title: "Marine Proxies"
 author: "Gabriel Bowen"
 date: "`r format(Sys.time(), '%Y-%m-%d')`"
 editor: source
+format: pdf
 ---
 
 ```{r setup, include=FALSE}
@@ -24,12 +25,12 @@ Let's look at the marine proxy data. The latest run includes ocean average $\del
 ```{r gradient}
 #| echo: FALSE
 #| fig.height: 10
-l = 0:75
+l = 0:90
 layout(matrix(c(1, 2), ncol = 1))
 par(mar = c(5, 5, 1, 1))
 
 plot(l, 23 + l * 0.22 + l^2 * -0.008, type = "l", lwd = 2, ylim = c(0,43),
-     xlim = c(2, 75), xlab = "Latitude", ylab = "Mean temperature")
+     xlim = c(2, 80), xlab = "Latitude", ylab = "Mean temperature")
 for(i in seq(1, nrow(sl$a.car), length.out = 1000)){
   lines(l, sl$a.car[i] + l * 
           sl$b.car[i] + 
@@ -60,7 +61,7 @@ points(post$BUGSoutput$mean$lat_cont.car, post$BUGSoutput$mean$t_cont.car,
        pch = 21, bg = "dark grey", col = col.c)
 
 plot(l, 23 + l * 0.22 + l^2 * -0.008, type = "l", lwd = 2, ylim = c(0,43),
-     xlim = c(2, 75), xlab = "Latitude", ylab = "Mean temperature")
+     xlim = c(2, 80), xlab = "Latitude", ylab = "Mean temperature")
 
 for(i in seq(1, nrow(sl$a.an), length.out = 1000)){
   lines(l, sl$a.an[i] + l * 
@@ -92,24 +93,41 @@ points(post$BUGSoutput$mean$lat_cont.an, post$BUGSoutput$mean$t_cont.an,
        pch = 21, bg = "dark grey", col = col.a)
 ```
 
+Let's review the high-latitude (terrestrial) proxy data and its interpretation. I'll refer to the sites by number for convenience, here's the key:
+
+```{r sites, echo=FALSE}
+print("Carnian = pink")
+mar_sites.car
+
+print("Anisian = blue")
+mar_sites.an
+```
+
 Here are the proxy data for marine calcite: 
 
 ```{r setpar}
 #| include: false
 dev.off()
-par(mar = c(5, 5, 1, 1))
+par(mar = c(5, 5, 4, 1))
 ```
 
-```{r calcite}
+```{r calcite,fig.height=4}
 #| echo: false
-MAT = 15:40
+MAT = 15:45
 plot(MAT, (0 + (2.78e6 / (MAT + 273) ^ 2 + -2.98)) * 0.97002 - 29.98, 
-     ylim = range(c(mc_samples.car$d18O, mc_samples.car$d18O)), type = "l", xlab = "MAT", 
-     ylab = expression(delta^{18}*"O marine calcite"))
+     xlim = c(18, 40), 
+     ylim = range(c(mc_samples.car$d18O, mc_samples.car$d18O)), type = "l", 
+     xlab = "MAT", ylab = expression(delta^{18}*"O marine calcite"))
 lines(MAT, (c(pm$dO_mar.mu) + (2.78e6 / (MAT + 273) ^ 2 + -2.98)) * 0.97002 - 29.98,
       lty = 3)
-points(pm$t_mar.car[mc_sites.ind.car], mc_samples.car$d18O, col = col.c)
-points(pm$t_mar.an[mc_sites.ind.an], mc_samples.an$d18O, col = col.a)
+points(pm$t_mar.car[mc_sites.ind.car], mc_samples.car$d18O, pch = 20, col = col.c)
+points(pm$t_mar.an[mc_sites.ind.an], mc_samples.an$d18O, pch = 20, col = col.a)
+
+text(pm$t_mar.car[mc_sites.ind.car], par("usr")[4], mc_sites.ind.car, 
+     xpd = NA, pos = 3, col = col.c)
+
+text(pm$t_mar.an[mc_sites.ind.an], par("usr")[4], mc_sites.ind.an, 
+     xpd = NA, pos = 3, offset = 1.25, col = col.a)
 ```
 
 The solid and dashed lines represent the paleotemperature equation using a seawater $\delta^{18}O$ value of zero (solid) or -1.1 per mil (dashed; this is the median value from the JPI posterior). A few observations:
@@ -120,28 +138,40 @@ The solid and dashed lines represent the paleotemperature equation using a seawa
 
 For comparison here are the same plots for phosphates and dolomites.
 
-```{r phosphate}
+```{r phosphate,fig.height=4}
 #| echo: FALSE
-MAT = 15:40
-plot(MAT, (MAT - 118.7) / -4.22 + 0, 
-     ylim = range(c(mp_samples.car$d18O, mp_samples.car$d18O)), type = "l", xlab = "MAT", 
-     ylab = expression(delta^{18}*"O marine phosphate"))
+MAT = 15:45
+plot(MAT, (MAT - 118.7) / -4.22 + 0, xlim = c(18, 40),
+     ylim = range(c(mp_samples.car$d18O, mp_samples.car$d18O)), type = "l", 
+     xlab = "MAT", ylab = expression(delta^{18}*"O marine phosphate"))
 lines(MAT, (MAT - 118.7) / -4.22 + c(pm$dO_mar.mu), lty = 3)
-points(pm$t_mar.car[mp_sites.ind.car], mp_samples.car$d18O, col = col.c)
-points(pm$t_mar.an[mp_sites.ind.an], mp_samples.an$d18O, col = col.a)
+points(pm$t_mar.car[mp_sites.ind.car], mp_samples.car$d18O, pch = 20, col = col.c)
+points(pm$t_mar.an[mp_sites.ind.an], mp_samples.an$d18O, pch = 20, col = col.a)
+
+
+text(pm$t_mar.car[mp_sites.ind.car], par("usr")[4], mp_sites.ind.car, 
+     xpd = NA, pos = 3, col = col.c)
+
+text(pm$t_mar.an[mp_sites.ind.an], par("usr")[4], mp_sites.ind.an, 
+     xpd = NA, pos = 3, offset = 1.25, col = col.a)
 ```
 
 The MATs would again be much higher using a seawater $\delta^{18}O$ of zero. Interestingly, the phosphate $\delta^{18}O$ are much more similar for the Anisian and Carnian than the values for calcite are, and if we just used phosphate data the marine tropical temperatures for the two stages would be pretty similar. Because there are a lot more calcite data these end up being more influential, though.
 
-```{r dolomite}
+```{r dolomite,fig.height=4}
 #| echo: FALSE
-MAT = 15:40
+MAT = 15:45
 plot(MAT, (0 + (2.73e6 / (MAT + 273) ^ 2 + 0.26)) * 0.97002 - 29.98, 
+     xlim = c(18, 40),
      ylim = range(md_samples.car$d18O), type = "l", xlab = "MAT", 
      ylab = expression(delta^{18}*"O marine dolomite"))
 lines(MAT, (c(pm$dO_mar.mu) + (2.73e6 / (MAT + 273) ^ 2 + 0.26)) * 0.97002 - 29.98,
       lty = 3)
-points(pm$t_mar.car[md_sites.ind.car], md_samples.car$d18O, col = col.c)
+points(pm$t_mar.car[md_sites.ind.car], md_samples.car$d18O, pch = 20, col = col.c)
+
+
+text(pm$t_mar.car[md_sites.ind.car], par("usr")[4], md_sites.ind.car, 
+     xpd = NA, pos = 3, col = col.c)
 ```
 
 Not so sure about these dolomite data...with the exception of a few low-value outliers they are consistent w/ substantially lower temperatures regardless of what we use for the $\delta^{18}O$ value of seawater. It's only one site, though and in the full analysis they are largley overwhelmed by the other data. 

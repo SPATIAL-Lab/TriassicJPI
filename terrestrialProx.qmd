@@ -3,6 +3,7 @@ title: "Terrestrial Proxies"
 author: "Gabriel Bowen"
 date: "`r format(Sys.time(), '%Y-%m-%d')`"
 editor: source
+format: pdf
 ---
 
 ```{r setup, include=FALSE}
@@ -36,7 +37,7 @@ cont_sites.an
 
 Below I'm plotting the calibration data set for the proxy (black) and the paleo-proxy values vs. the posterior median site MAT (pink = Carnian, blue = Anisian).
 
-```{r alsi, echo=FALSE}
+```{r alsi, echo=FALSE,fig.height=4}
 plot(AlSi ~ MAT, data = alsi_cal, ylab = "Al/Si",
      xlim = range(c(as.data.frame(alsi_cal)$MAT, pm$t_cont.car[alsi_sites.ind.car],
                     pm$t_cont.an[alsi_sites.ind.an])),
@@ -64,7 +65,7 @@ text(pm$t_cont.an[alsi_sites.ind.an], par("usr")[4], alsi_sites.ind.an,
 
 Same thing for CIA.
 
-```{r CIA, echo=FALSE}
+```{r CIA, echo=FALSE,fig.height=4}
 plot(CIA ~ Temp, data = cia_cal, xlab = "MAT",
      xlim = range(c(as.data.frame(cia_cal)$Temp, pm$t_cont.car[cia_sites.ind.car],
                     pm$t_cont.an[cia_sites.ind.an])),
@@ -89,7 +90,7 @@ text(pm$t_cont.an[cia_sites.ind.an], par("usr")[4], cia_sites.ind.an,
 
 Now paleosol weathering index, available at one Anisian and two Carnian sites. I've added the calibration curve using the median curve fit parameters in the posterior for reference.
 
-```{r PWI, echo=FALSE}
+```{r PWI, echo=FALSE,fig.height=4}
 plot(PWI ~ MAT, data = pwi_cal, 
      xlim = range(c(as.data.frame(pwi_cal)$MAT, pm$t_cont.car[pwi_sites.ind.car],
                     pm$t_cont.an[pwi_sites.ind.an])),
@@ -116,7 +117,7 @@ Here the reconstructions fit the calibration data well. Obviously the interpreta
 
 Here I'm using the calibration function from Julia Kelson's paper, which is represented as a line. Only one Anisian site.
 
-```{r clumped, echo=FALSE}
+```{r clumped, echo=FALSE,fig.height=4}
 plot(20:45, 6.36e4 / (20:45 + 273) ^ 2 + -4.7e-3, type = "l", 
      xlab = "MAT", ylab = expression(Delta*47),
      ylim = range(c(6.36e4 / (20:45 + 273) ^ 2 + -4.7e-3, 
@@ -144,7 +145,7 @@ I'm using carbonate $\delta^{18}O$ data from 3 Carnian and 4 Anisian sites. The 
 
 The data are plotted as above, with the posterior median MAT on the x axis and the measured proxy value on the y axis. 
 
-```{r oxygen, echo=FALSE}
+```{r oxygen, echo=FALSE,fig.height=4}
 mat = 0:40
 c_cont = -mat + 1.4836 - 0.2738 * 45
 t_seas = (-0.9189 + sqrt(0.9189 ^ 2 - 4 * -0.0015 * c_cont)) /
