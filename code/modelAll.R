@@ -129,13 +129,15 @@ model{
   }
   
   # Equilibrium fractionation parameters
+  # Calcite: O'Neil et al., 1969
   # Dolomite: Vasconcelos et al., 2025, Geology
+  # Phosphate: Lecuyer et al., 2013, Chem Geo
   cSlope = 2.78e6
   cInt = -2.98
   dSlope = 2.73e6
   dInt = 0.26
-  pSlope = -4.22
-  pInt = 118.7
+  pSlope = -4.5
+  pInt = 117.4
   
   # Process model for continental offsets
   for(i in 1:length(lats_cont.an[, 1])){
