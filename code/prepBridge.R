@@ -1,7 +1,7 @@
 library(terra)
 
 # Get model results and mask
-an = rast("data/tfkSx_temp2m_ann_fsy.nc")
+an = rast("data/teyFx3_temp2m_ann_fsy.nc")
 anMask = rast("data/teyFx3_ancil_landmask_jan_fsy.nc")
 anMaskC = classify(anMask, matrix(c(0, 1, NA, 1), ncol = 2))
 anMaskO = classify(anMask, matrix(c(0, 1, 1, NA), ncol = 2))
@@ -9,7 +9,7 @@ anMaskO = classify(anMask, matrix(c(0, 1, 1, NA), ncol = 2))
 anC = an * anMaskC
 anO = an * anMaskO
 
-car = rast("data/tfkSu_temp2m_ann_fsy.nc")
+car = rast("data/teyFu3_temp2m_ann_fsy.nc")
 carMask = rast("data/teyFu3_ancil_landmask_jan_fsy.nc")
 carMaskC = classify(carMask, matrix(c(0, 1, NA, 1), ncol = 2))
 carMaskO = classify(carMask, matrix(c(0, 1, 1, NA), ncol = 2))
