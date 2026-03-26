@@ -13,37 +13,6 @@ layout(matrix(c(1, 2), ncol = 1))
 par(mai = c(1, 1, 0.1, 0.1))
 plot(l, 23 + l * 0.22 + l^2 * -0.008, type = "l", lwd = 2, ylim = c(0,43),
      xlim = c(2, 80), xlab = "Latitude", ylab = "Mean temperature")
-for(i in seq(1, nrow(sl$a.car), length.out = 1000)){
-  lines(l, sl$a.car[i] + l * 
-          sl$b.car[i] + 
-          l^2 * sl$c.car[i], 
-        col = rgb(1, 0.2, 0.6, 0.02))
-}
-lines(l, c(post$BUGSoutput$mean$a.car) + l * c(post$BUGSoutput$mean$b.car) + 
-        l^2 * c(post$BUGSoutput$mean$c.car), col = rgb(1, 0.2, 0.6), lwd = 2)
-
-lines(zMeans$lat, zMeans$car, col = rgb(1, 0.2, 0.6))
-lines(zMeans$lat, zMeans$carC, col = rgb(1, 0.2, 0.6), lty = 2)
-
-arrows(post$BUGSoutput$mean$lat_mar.car, 
-       post$BUGSoutput$mean$t_mar.car - post$BUGSoutput$sd$t_mar.car, 
-       post$BUGSoutput$mean$lat_mar.car, 
-       post$BUGSoutput$mean$t_mar.car + post$BUGSoutput$sd$t_mar.car, 
-       angle = 90, length = 0.05, code = 3, col = rgb(1, 0.2, 0.6))
-points(post$BUGSoutput$mean$lat_mar.car, 
-       post$BUGSoutput$mean$t_mar.car, pch = 21, bg = "white", 
-       col = rgb(1, 0.2, 0.6))
-arrows(post$BUGSoutput$mean$lat_cont.car, 
-       post$BUGSoutput$mean$t_cont.car - post$BUGSoutput$sd$t_cont.car, 
-       post$BUGSoutput$mean$lat_cont.car, 
-       post$BUGSoutput$mean$t_cont.car + post$BUGSoutput$sd$t_cont.car, 
-       angle = 90, length = 0.05, code = 3, 
-       col = rgb(1, 0.2, 0.6))
-points(post$BUGSoutput$mean$lat_cont.car, post$BUGSoutput$mean$t_cont.car, 
-       pch = 21, bg = "dark grey", col = rgb(1, 0.2, 0.6))
-
-plot(l, 23 + l * 0.22 + l^2 * -0.008, type = "l", lwd = 2, ylim = c(0,43),
-     xlim = c(2, 80), xlab = "Latitude", ylab = "Mean temperature")
 
 for(i in seq(1, nrow(sl$a.an), length.out = 1000)){
   lines(l, sl$a.an[i] + l * 
@@ -73,6 +42,37 @@ arrows(post$BUGSoutput$mean$lat_cont.an,
        col = rgb(0.2, 0.6, 1))
 points(post$BUGSoutput$mean$lat_cont.an, post$BUGSoutput$mean$t_cont.an, 
        pch = 21, bg = "dark grey", col = rgb(0.2, 0.6, 1))
+
+plot(l, 23 + l * 0.22 + l^2 * -0.008, type = "l", lwd = 2, ylim = c(0,43),
+     xlim = c(2, 80), xlab = "Latitude", ylab = "Mean temperature")
+for(i in seq(1, nrow(sl$a.car), length.out = 1000)){
+  lines(l, sl$a.car[i] + l * 
+          sl$b.car[i] + 
+          l^2 * sl$c.car[i], 
+        col = rgb(1, 0.2, 0.6, 0.02))
+}
+lines(l, c(post$BUGSoutput$mean$a.car) + l * c(post$BUGSoutput$mean$b.car) + 
+        l^2 * c(post$BUGSoutput$mean$c.car), col = rgb(1, 0.2, 0.6), lwd = 2)
+
+lines(zMeans$lat, zMeans$car, col = rgb(1, 0.2, 0.6))
+lines(zMeans$lat, zMeans$carC, col = rgb(1, 0.2, 0.6), lty = 2)
+
+arrows(post$BUGSoutput$mean$lat_mar.car, 
+       post$BUGSoutput$mean$t_mar.car - post$BUGSoutput$sd$t_mar.car, 
+       post$BUGSoutput$mean$lat_mar.car, 
+       post$BUGSoutput$mean$t_mar.car + post$BUGSoutput$sd$t_mar.car, 
+       angle = 90, length = 0.05, code = 3, col = rgb(1, 0.2, 0.6))
+points(post$BUGSoutput$mean$lat_mar.car, 
+       post$BUGSoutput$mean$t_mar.car, pch = 21, bg = "white", 
+       col = rgb(1, 0.2, 0.6))
+arrows(post$BUGSoutput$mean$lat_cont.car, 
+       post$BUGSoutput$mean$t_cont.car - post$BUGSoutput$sd$t_cont.car, 
+       post$BUGSoutput$mean$lat_cont.car, 
+       post$BUGSoutput$mean$t_cont.car + post$BUGSoutput$sd$t_cont.car, 
+       angle = 90, length = 0.05, code = 3, 
+       col = rgb(1, 0.2, 0.6))
+points(post$BUGSoutput$mean$lat_cont.car, post$BUGSoutput$mean$t_cont.car, 
+       pch = 21, bg = "dark grey", col = rgb(1, 0.2, 0.6))
 
 dev.off()
 
