@@ -3,22 +3,22 @@ model{
   # Data model for PWI
   for(i in 1:length(pwi_cal[, 1])){
     pwi_cal[i, 1] ~ dnorm(pwi_cal_m[i], 1 / pwi_var)
-    pwi_cal_m[i] = exp((pwi_cal[i, 2] + pwi_a) / pwi_b)
+    pwi_cal_m[i] = exp(pwi_cal[i, 2] * pwi_a + pwi_b)
   }
   
   for(i in 1:length(pwi_data.an)){
     pwi_data.an[i] ~ dnorm(pwi_data_m.an[i], 1 / pwi_var)
-    pwi_data_m.an[i] = exp((t_cont.an[pwi_sites.ind.an[i]] + pwi_a) / pwi_b)
+    pwi_data_m.an[i] = exp(t_cont.an[pwi_sites.ind.an[i]] * pwi_a  + pwi_b)
   }
   
   for(i in 1:length(pwi_data.car)){
     pwi_data.car[i] ~ dnorm(pwi_data_m.car[i], 1 / pwi_var)
-    pwi_data_m.car[i] = exp((t_cont.car[pwi_sites.ind.car[i]] + pwi_a) / pwi_b)
+    pwi_data_m.car[i] = exp(t_cont.car[pwi_sites.ind.car[i]] * pwi_a + pwi_b)
   }
   
   pwi_var ~ dgamma(2, 1)
-  pwi_a ~ dnorm(-22, 1 / 1)
-  pwi_b ~ dnorm(-3, 1 / (0.2 ^ 2))
+  pwi_a ~ dnorm(-0.215, 2500)
+  pwi_b ~ dnorm(5.6, 11)
   
   # Data model for AlSi
   for(i in 1:length(alsi_cal[, 1])){
@@ -59,8 +59,8 @@ model{
   }
   
   cia_var ~ dgamma(2, 10)
-  cia_slope ~ dnorm(-0.0217, 1 / (0.001 ^ 2))
-  cia_int ~ dnorm(0.75, 1 / (0.02 ^ 2))
+  cia_slope ~ dnorm(-0.019, 1e6)
+  cia_int ~ dnorm(0.49, 2500)
   
   # Data model for terrestrial carbonates
   for(i in 1:length(pc_data.an)){

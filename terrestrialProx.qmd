@@ -44,6 +44,9 @@ plot(AlSi ~ MAT, data = alsi_cal, ylab = "Al/Si",
      ylim = range(c(as.data.frame(alsi_cal)$AlSi, alsi_samples.car$AlSi,
                     alsi_samples.an$AlSi)))
 
+abline(-0.07081, 0.01983, col = "grey")
+abline(pm$alsi_int, pm$alsi_slope)
+
 points(pm$t_cont.car[alsi_sites.ind.car], alsi_samples.car$AlSi,
        pch = 20, col = col.c)
 
@@ -72,6 +75,9 @@ plot(CIA ~ Temp, data = cia_cal, xlab = "MAT",
      ylim = range(c(as.data.frame(cia_cal)$CIA, cia_samples.car$CIA,
                     cia_samples.an$CIA)))
 
+abline(0.49, -0.019, col = "grey")
+abline(pm$cia_int, pm$cia_slope)
+
 points(pm$t_cont.car[cia_sites.ind.car], cia_samples.car$CIA,
        col = col.c, pch = 20)
 points(pm$t_cont.an[cia_sites.ind.an], cia_samples.an$CIA,
@@ -96,8 +102,11 @@ plot(PWI ~ MAT, data = pwi_cal,
                     pm$t_cont.an[pwi_sites.ind.an])),
      ylim = range(c(as.data.frame(pwi_cal)$PWI, pwi_samples.car$PWI, 
                     pwi_samples.an$PWI)))
+
 xs = seq(par("usr")[1], par("usr")[2], length = 100)
-ys = exp((xs + c(pm$pwi_a)) / c(pm$pwi_b))
+ysp = exp(-0.215 * xs + 5.6)
+ys = exp(xs * c(pm$pwi_a) + c(pm$pwi_b))
+lines(xs, ysp, col = "grey")
 lines(xs, ys)
 
 points(pm$t_cont.car[pwi_sites.ind.car], pwi_samples.car$PWI,
